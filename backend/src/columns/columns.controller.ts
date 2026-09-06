@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Inject,
   Param,
   Patch,
   Post,
@@ -16,7 +17,7 @@ import { BoardAccessGuard } from '../auth/guards/board-access.guard';
 
 @Controller()
 export class ColumnsController {
-  constructor(private readonly columnsService: ColumnsService) {}
+  constructor(@Inject(ColumnsService) private readonly columnsService: ColumnsService) {}
 
   @UseGuards(BoardAccessGuard)
   @Roles(Role.OWNER, Role.EDITOR)
