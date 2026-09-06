@@ -64,15 +64,19 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
     }
   }
 
-  /* ── Edit mode ───────────────────────────────────────── */
+  /* ── Edit mode ─────────────────────────────────────── */
   if (isEditing) {
     return (
       <div
-        className="rounded-xl p-3.5 space-y-3 animate-fade-in-scale"
+        className="rounded-xl animate-fade-in-scale"
         style={{
           background: 'var(--bg-overlay)',
-          border: '1px solid var(--brand-500)',
+          border: '1.5px solid var(--brand-500)',
           boxShadow: '0 0 0 3px rgba(99,102,241,0.18)',
+          padding: '14px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
         }}
       >
         <input
@@ -80,7 +84,8 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Task title"
-          className="input text-sm py-2"
+          className="input"
+          style={{ fontSize: '0.875rem', padding: '9px 12px' }}
           autoFocus
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSaveEdit();
@@ -92,19 +97,22 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description (optional)"
           rows={2}
-          className="input text-xs py-2 resize-none"
+          className="input"
+          style={{ fontSize: '0.8rem', padding: '8px 12px', resize: 'none' }}
         />
-        <div className="flex items-center justify-end gap-2">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
           <button
             onClick={() => setIsEditing(false)}
-            className="btn btn-ghost text-xs py-1 px-3"
+            className="btn btn-ghost"
+            style={{ fontSize: '0.8rem', padding: '7px 14px' }}
           >
             <X className="w-3.5 h-3.5" />
             Cancel
           </button>
           <button
             onClick={handleSaveEdit}
-            className="btn btn-primary text-xs py-1 px-3"
+            className="btn btn-primary"
+            style={{ fontSize: '0.8rem', padding: '7px 14px' }}
           >
             <Check className="w-3.5 h-3.5" />
             Save
@@ -114,27 +122,34 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
     );
   }
 
-  /* ── Display mode ────────────────────────────────────── */
+  /* ── Display mode ──────────────────────────────────── */
   return (
     <div
       ref={setNodeRef}
+      className="group"
       style={{
         ...style,
         background: isDragging ? 'var(--bg-overlay)' : 'var(--bg-elevated)',
         border: isDragging
-          ? '1px solid var(--brand-500)'
+          ? '1.5px solid var(--brand-500)'
           : '1px solid var(--border-default)',
-        boxShadow: isDragging ? 'var(--shadow-brand)' : 'var(--shadow-sm)',
-        opacity: isDragging ? 0.5 : 1,
+        boxShadow: isDragging
+          ? 'var(--shadow-brand), var(--shadow-lg)'
+          : 'var(--shadow-sm)',
+        opacity: isDragging ? 0.55 : 1,
+        borderRadius: 'var(--radius-lg)',
+        padding: '14px 14px 12px',
+        transition: isDragging ? 'none' : 'border-color 0.15s, box-shadow 0.15s',
         transform: isDragging
-          ? `${style?.transform ?? ''} rotate(1.5deg)`
+          ? `${style?.transform ?? ''} rotate(1.8deg)`
           : style?.transform,
+        cursor: isDragging ? 'grabbing' : 'default',
+        position: 'relative',
       }}
-      className="group rounded-xl p-3.5 transition-all duration-150 relative"
       onMouseOver={(e) => {
         if (!isDragging) {
-          e.currentTarget.style.borderColor = 'rgba(99,102,241,0.35)';
-          e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.35)';
+          e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)';
+          e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
         }
       }}
       onMouseOut={(e) => {
@@ -144,48 +159,99 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
         }
       }}
     >
-      <div className="flex items-start gap-2.5">
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
         {/* Drag Handle */}
         {canEdit && (
           <button
             {...attributes}
             {...listeners}
-            className="mt-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing rounded p-0.5"
-            style={{ color: 'var(--text-muted)' }}
+            style={{
+              marginTop: '2px',
+              flexShrink: 0,
+              color: 'var(--text-muted)',
+              background: 'none',
+              border: 'none',
+              padding: '2px',
+              borderRadius: '4px',
+              cursor: 'grab',
+              opacity: 0,
+              transition: 'opacity 0.15s, color 0.15s',
+            }}
+            className="task-drag-handle"
             title="Drag to move"
             tabIndex={-1}
           >
-            <GripVertical className="w-3.5 h-3.5" />
+            <GripVertical className="w-4 h-4" />
           </button>
         )}
 
         {/* Content */}
-        <div className="flex-1 min-w-0">
+        <div style={{ flex: 1, minWidth: 0 }}>
           <p
-            className="text-sm font-semibold leading-snug break-words"
-            style={{ color: 'var(--text-primary)' }}
+            style={{
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              lineHeight: 1.45,
+              color: 'var(--text-primary)',
+              wordBreak: 'break-word',
+              letterSpacing: '-0.01em',
+            }}
           >
             {task.title}
           </p>
           {task.description && (
-            <p
-              className="text-xs mt-1.5 line-clamp-2 leading-relaxed flex items-start gap-1"
-              style={{ color: 'var(--text-muted)' }}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '5px',
+                marginTop: '7px',
+              }}
             >
-              <FileText className="w-3 h-3 mt-0.5 flex-shrink-0" />
-              <span>{task.description}</span>
-            </p>
+              <FileText
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  flexShrink: 0,
+                  marginTop: '1px',
+                  color: 'var(--text-muted)',
+                }}
+              />
+              <p
+                style={{
+                  fontSize: '0.78rem',
+                  color: 'var(--text-muted)',
+                  lineHeight: 1.5,
+                  overflow: 'hidden',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical' as const,
+                }}
+              >
+                {task.description}
+              </p>
+            </div>
           )}
         </div>
 
-        {/* Action buttons */}
+        {/* Action Buttons */}
         {canEdit && (
-          <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-auto">
+          <div
+            className="task-actions"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px',
+              flexShrink: 0,
+              opacity: 0,
+              transition: 'opacity 0.15s',
+            }}
+          >
             <button
               onClick={() => setIsEditing(true)}
               className="btn-icon rounded-md"
               title="Edit task"
-              style={{ color: 'var(--text-muted)' }}
+              style={{ padding: '5px' }}
               onMouseOver={(e) => (e.currentTarget.style.color = 'var(--brand-400)')}
               onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
@@ -195,7 +261,7 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
               onClick={handleDelete}
               className="btn-icon rounded-md"
               title="Delete task"
-              style={{ color: 'var(--text-muted)' }}
+              style={{ padding: '5px' }}
               onMouseOver={(e) => (e.currentTarget.style.color = 'var(--danger-400)')}
               onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >

@@ -108,9 +108,9 @@ export default function BoardsPage() {
   const sharedBoards = boards.filter((b) => b.myRole !== 'OWNER');
 
   return (
-    <div className="flex-1 max-w-screen-xl w-full mx-auto px-4 sm:px-6 py-8">
+    <div className="flex-1 max-w-screen-xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 animate-fade-in">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 animate-fade-in">
         <div>
           <h1 className="text-2xl font-bold">
             Good to see you,{' '}
@@ -176,15 +176,15 @@ export default function BoardsPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-10">
+        <div className="space-y-12">
           {/* Owned boards */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
+              <h2 className="text-xs font-bold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
                 <Star className="w-3.5 h-3.5" style={{ color: 'var(--warning-400)' }} />
                 My Boards
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -199,7 +199,7 @@ export default function BoardsPage() {
                 <Users className="w-3.5 h-3.5" style={{ color: 'var(--accent-400)' }} />
                 Shared with me
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -282,10 +282,15 @@ function BoardCard({ board }: { board: BoardSummary }) {
   return (
     <Link
       href={`/boards/${board.id}`}
-      className="group block rounded-xl p-5 transition-all duration-200 relative overflow-hidden animate-fade-in"
+      className="group block rounded-2xl transition-all duration-200 relative overflow-hidden animate-fade-in"
       style={{
         background: 'var(--bg-elevated)',
         border: '1px solid var(--border-default)',
+        padding: '22px 22px 18px',
+        minHeight: '160px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)';
@@ -304,7 +309,7 @@ function BoardCard({ board }: { board: BoardSummary }) {
         style={{ background: 'linear-gradient(90deg, var(--brand-500), var(--accent-500))' }}
       />
 
-      <div className="flex items-start justify-between mb-4">
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '10px' }}>
         <h3
           className="text-base font-bold truncate pr-2 transition-colors"
           style={{ color: 'var(--text-primary)' }}
@@ -316,15 +321,17 @@ function BoardCard({ board }: { board: BoardSummary }) {
         </span>
       </div>
 
-      <p className="text-xs mb-5 truncate" style={{ color: 'var(--text-muted)' }}>
+      <p className="text-xs truncate" style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
         by {board.owner?.name}
       </p>
 
       <div
-        className="flex items-center justify-between pt-3 text-xs"
+        className="flex items-center justify-between text-xs"
         style={{
           borderTop: '1px solid var(--border-subtle)',
           color: 'var(--text-muted)',
+          paddingTop: '14px',
+          marginTop: 'auto',
         }}
       >
         <span className="flex items-center gap-1.5">
