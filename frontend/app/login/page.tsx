@@ -10,17 +10,16 @@ import {
   Loader2,
   Eye,
   EyeOff,
-  Sparkles,
   ArrowRight,
   Zap,
 } from 'lucide-react';
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail]             = useState('');
+  const [password, setPassword]       = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError]             = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +29,7 @@ export default function LoginPage() {
     try {
       await login(email, password);
     } catch (err: any) {
-      setError(err.message || 'Failed to login. Please check your credentials.');
+      setError(err.message || 'Invalid email or password.');
     } finally {
       setIsSubmitting(false);
     }
@@ -43,110 +42,94 @@ export default function LoginPage() {
   };
 
   const demoAccounts = [
-    {
-      label: 'Owner',
-      emoji: '👑',
-      email: 'owner@example.com',
-      pass: 'Password123!',
-      color: 'warning',
-    },
-    {
-      label: 'Editor',
-      emoji: '✏️',
-      email: 'editor@example.com',
-      pass: 'Password123!',
-      color: 'accent',
-    },
-    {
-      label: 'Viewer',
-      emoji: '👁️',
-      email: 'viewer@example.com',
-      pass: 'Password123!',
-      color: 'muted',
-    },
+    { label: 'Rafiq Hossain', sublabel: 'Owner',  emoji: '👑', email: 'owner@example.com',  pass: 'Password123!' },
+    { label: 'Nusrat Jahan',  sublabel: 'Editor', emoji: '✏️', email: 'editor@example.com', pass: 'Password123!' },
+    { label: 'Tanvir Ahmed',  sublabel: 'Viewer', emoji: '👁️', email: 'viewer@example.com', pass: 'Password123!' },
   ];
 
   return (
-    <div
-      className="flex-1 flex items-center justify-center px-4 py-12"
-      style={{ minHeight: 'calc(100vh - 3.5rem)' }}
-    >
-      {/* Background glow effects */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          top: '-20%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '600px',
-          height: '400px',
-          background:
-            'radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+    <div className="auth-page">
+      {/* Soft decorative blobs */}
+      <div aria-hidden="true" style={{
+        position: 'fixed', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0,
+      }}>
+        <div style={{
+          position: 'absolute', top: '-8%', left: '-5%',
+          width: '480px', height: '480px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 70%)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '-10%', right: '-8%',
+          width: '400px', height: '400px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)',
+        }} />
+      </div>
 
-      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
-        {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
+      <div style={{ width: '100%', maxWidth: '440px', position: 'relative', zIndex: 1 }}>
+
+        {/* ── Logo ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px' }}>
           <div
+            className="animate-float"
             style={{
+              width: '56px', height: '56px', borderRadius: '16px',
               background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
-              boxShadow: '0 0 24px rgba(99,102,241,0.5)',
+              boxShadow: '0 8px 24px rgba(99,102,241,0.35)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: '16px',
             }}
-            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 animate-pulse-brand"
           >
-            <Layers className="w-7 h-7 text-white" strokeWidth={2} />
+            <Layers style={{ width: '26px', height: '26px', color: '#fff' }} strokeWidth={2} />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
-          <p className="text-sm mt-1.5" style={{ color: 'var(--text-secondary)' }}>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '6px' }}>
+            Welcome back
+          </h1>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
             Sign in to your Kanban Pro workspace
           </p>
         </div>
 
-        {/* Card */}
-        <div
-        className="rounded-2xl shadow-2xl"
-          style={{
-            background: 'rgba(22,27,34,0.80)',
-            border: '1px solid var(--border-default)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            padding: '36px 32px',
-          }}
-        >
+        {/* ── Card ── */}
+        <div className="auth-card">
+
+          {/* Error message */}
           {error && (
             <div
-              className="mb-5 p-3.5 rounded-xl flex items-start gap-2.5 text-sm animate-fade-in"
+              className="animate-fade-in"
               style={{
-                background: 'rgba(239,68,68,0.1)',
-                border: '1px solid rgba(239,68,68,0.3)',
-                color: 'var(--danger-400)',
+                marginBottom: '20px',
+                padding: '12px 14px',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--danger-50)',
+                border: '1.5px solid rgba(220,38,38,0.22)',
+                color: 'var(--danger-600)',
+                fontSize: '0.85rem',
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
               }}
             >
-              <span>⚠️</span>
+              <span style={{ flexShrink: 0 }}>⚠️</span>
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="login-email"
-                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+          <form onSubmit={handleSubmit}>
+
+            {/* ── Email field ── */}
+            <div className="form-group">
+              <label htmlFor="login-email" className="form-label">
                 Email Address
               </label>
-              <div className="relative">
-                <div
-                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  <Mail className="w-4 h-4" />
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute', top: '50%', left: '14px',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)', pointerEvents: 'none',
+                  display: 'flex', alignItems: 'center',
+                }}>
+                  <Mail style={{ width: '16px', height: '16px' }} />
                 </div>
                 <input
                   id="login-email"
@@ -154,28 +137,26 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder="rafiq@example.com"
                   className="input input-icon-left"
                   autoComplete="email"
                 />
               </div>
             </div>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="login-password"
-                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+            {/* ── Password field ── */}
+            <div className="form-group" style={{ marginTop: '20px' }}>
+              <label htmlFor="login-password" className="form-label">
                 Password
               </label>
-              <div className="relative">
-                <div
-                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  <Lock className="w-4 h-4" />
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute', top: '50%', left: '14px',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)', pointerEvents: 'none',
+                  display: 'flex', alignItems: 'center',
+                }}>
+                  <Lock style={{ width: '16px', height: '16px' }} />
                 </div>
                 <input
                   id="login-password"
@@ -184,90 +165,115 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="input input-icon-left pr-11"
+                  className="input input-icon-left"
+                  style={{ paddingRight: '44px' }}
                   autoComplete="current-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-3 flex items-center btn-icon"
+                  className="btn-icon"
                   aria-label="Toggle password visibility"
+                  style={{
+                    position: 'absolute', top: '50%', right: '10px',
+                    transform: 'translateY(-50%)', padding: '6px',
+                  }}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword
+                    ? <EyeOff style={{ width: '16px', height: '16px' }} />
+                    : <Eye    style={{ width: '16px', height: '16px' }} />
+                  }
                 </button>
               </div>
             </div>
 
+            {/* ── Submit ── */}
             <button
               id="login-submit-btn"
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary w-full py-3 text-sm"
+              className="btn btn-primary"
+              style={{ width: '100%', marginTop: '28px', padding: '13px 20px', fontSize: '0.9rem' }}
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Signing in...</span>
+                  <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
+                  <span>Signing in…</span>
                 </>
               ) : (
                 <>
                   <span>Sign In</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight style={{ width: '16px', height: '16px' }} />
                 </>
               )}
             </button>
           </form>
 
-          {/* Demo Accounts */}
-          <div className="mt-7 pt-6" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-            <div
-              className="flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wider mb-3"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              <Zap className="w-3.5 h-3.5" style={{ color: 'var(--brand-400)' }} />
+          {/* ── Demo accounts ── */}
+          <div style={{ marginTop: '28px', paddingTop: '24px', borderTop: '1px solid var(--border-subtle)' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+              fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase',
+              color: 'var(--text-muted)', marginBottom: '14px',
+            }}>
+              <Zap style={{ width: '12px', height: '12px', color: 'var(--brand-500)' }} />
               <span>Quick Test Login</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
               {demoAccounts.map((acc) => (
                 <button
-                  key={acc.label}
+                  key={acc.email}
                   type="button"
-                  id={`demo-${acc.label.toLowerCase()}`}
+                  id={`demo-${acc.sublabel.toLowerCase()}`}
                   onClick={() => handleQuickFill(acc.email, acc.pass)}
-                  className="flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all"
+                  title={`${acc.email} / Password123!`}
                   style={{
-                    background: 'var(--bg-overlay)',
-                    border: '1px solid var(--border-default)',
-                    color: 'var(--text-secondary)',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center',
+                    gap: '5px', padding: '14px 8px',
+                    borderRadius: 'var(--radius-lg)',
+                    background: 'var(--bg-elevated)',
+                    border: '1.5px solid var(--border-default)',
+                    cursor: 'pointer', transition: 'all 0.18s',
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.borderColor = 'var(--brand-500)';
-                    e.currentTarget.style.background = 'rgba(99,102,241,0.1)';
-                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.background   = 'var(--brand-50)';
+                    e.currentTarget.style.boxShadow    = '0 2px 12px rgba(99,102,241,0.14)';
+                    e.currentTarget.style.transform    = 'translateY(-1px)';
                   }}
                   onMouseOut={(e) => {
                     e.currentTarget.style.borderColor = 'var(--border-default)';
-                    e.currentTarget.style.background = 'var(--bg-overlay)';
-                    e.currentTarget.style.color = 'var(--text-secondary)';
+                    e.currentTarget.style.background   = 'var(--bg-elevated)';
+                    e.currentTarget.style.boxShadow    = 'none';
+                    e.currentTarget.style.transform    = 'translateY(0)';
                   }}
                 >
-                  <span className="text-lg">{acc.emoji}</span>
-                  <span>{acc.label}</span>
+                  <span style={{ fontSize: '1.15rem' }}>{acc.emoji}</span>
+                  <span style={{
+                    fontSize: '0.72rem', fontWeight: 700,
+                    color: 'var(--text-primary)', textAlign: 'center', lineHeight: 1.3,
+                  }}>
+                    {acc.label}
+                  </span>
+                  <span style={{
+                    fontSize: '0.64rem', fontWeight: 500,
+                    color: 'var(--text-muted)', textAlign: 'center',
+                  }}>
+                    {acc.sublabel}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
         </div>
 
-        <p className="text-center text-sm mt-5" style={{ color: 'var(--text-muted)' }}>
+        {/* Footer link */}
+        <p style={{ textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '20px' }}>
           Don&apos;t have an account?{' '}
           <Link
             href="/register"
-            className="font-semibold transition-colors"
-            style={{ color: 'var(--brand-400)' }}
-            onMouseOver={(e) => (e.currentTarget.style.color = 'var(--brand-500)')}
-            onMouseOut={(e) => (e.currentTarget.style.color = 'var(--brand-400)')}
+            style={{ color: 'var(--brand-500)', fontWeight: 600 }}
           >
             Create one free
           </Link>
