@@ -37,7 +37,7 @@ export function Navbar() {
         }}
         className="sticky top-0 z-40"
       >
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
           <Link
             href="/boards"
