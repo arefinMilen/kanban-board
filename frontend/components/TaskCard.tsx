@@ -129,17 +129,17 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
       className="group"
       style={{
         ...style,
-        background: isDragging ? 'var(--bg-overlay)' : 'var(--bg-elevated)',
+        background: isDragging ? 'var(--bg-overlay)' : '#ffffff',
         border: isDragging
           ? '1.5px solid var(--brand-500)'
-          : '1px solid var(--border-default)',
+          : '1px solid rgba(15, 23, 42, 0.11)',
         boxShadow: isDragging
           ? 'var(--shadow-brand), var(--shadow-lg)'
-          : 'var(--shadow-sm)',
+          : '0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
         opacity: isDragging ? 0.55 : 1,
-        borderRadius: 'var(--radius-lg)',
-        padding: '14px 14px 12px',
-        transition: isDragging ? 'none' : 'border-color 0.15s, box-shadow 0.15s',
+        borderRadius: '16px',
+        padding: '16px 16px 14px',
+        transition: isDragging ? 'none' : 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
         transform: isDragging
           ? `${style?.transform ?? ''} rotate(1.8deg)`
           : style?.transform,
@@ -148,14 +148,16 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
       }}
       onMouseOver={(e) => {
         if (!isDragging) {
-          e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)';
-          e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
+          e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.45)';
+          e.currentTarget.style.boxShadow = '0 10px 24px -4px rgba(99, 102, 241, 0.14), 0 2px 6px rgba(15, 23, 42, 0.04)';
+          e.currentTarget.style.transform = 'translateY(-2px)';
         }
       }}
       onMouseOut={(e) => {
         if (!isDragging) {
-          e.currentTarget.style.borderColor = 'var(--border-default)';
-          e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+          e.currentTarget.style.borderColor = 'rgba(15, 23, 42, 0.11)';
+          e.currentTarget.style.boxShadow = '0 2px 8px -1px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)';
+          e.currentTarget.style.transform = 'translateY(0)';
         }
       }}
     >
@@ -168,7 +170,7 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
             style={{
               marginTop: '2px',
               flexShrink: 0,
-              color: 'var(--text-muted)',
+              color: '#94a3b8',
               background: 'none',
               border: 'none',
               padding: '2px',
@@ -189,10 +191,10 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
         <div style={{ flex: 1, minWidth: 0 }}>
           <p
             style={{
-              fontSize: '0.875rem',
-              fontWeight: 600,
+              fontSize: '0.9rem',
+              fontWeight: 700,
               lineHeight: 1.45,
-              color: 'var(--text-primary)',
+              color: '#0f172a',
               wordBreak: 'break-word',
               letterSpacing: '-0.01em',
             }}
@@ -204,24 +206,25 @@ export function TaskCard({ task, canEdit, onTaskUpdated, onTaskDeleted }: TaskCa
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: '5px',
-                marginTop: '7px',
+                gap: '6px',
+                marginTop: '8px',
               }}
             >
               <FileText
                 style={{
-                  width: '12px',
-                  height: '12px',
+                  width: '13px',
+                  height: '13px',
                   flexShrink: 0,
-                  marginTop: '1px',
-                  color: 'var(--text-muted)',
+                  marginTop: '2px',
+                  color: '#64748b',
                 }}
               />
               <p
                 style={{
-                  fontSize: '0.78rem',
-                  color: 'var(--text-muted)',
+                  fontSize: '0.8rem',
+                  color: '#64748b',
                   lineHeight: 1.5,
+                  fontWeight: 500,
                   overflow: 'hidden',
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
