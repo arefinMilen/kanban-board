@@ -74,7 +74,7 @@ export function ShareBoardModal({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyCenter: 'center' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <div
         className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 animate-fade-in-scale"
