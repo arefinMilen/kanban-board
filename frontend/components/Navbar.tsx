@@ -138,38 +138,40 @@ export function Navbar() {
                     onClick={() => setUserDropOpen(false)}
                   />
                   <div
-                    className="absolute right-0 top-full mt-2 z-40 w-56 rounded-xl overflow-hidden animate-fade-in-scale"
+                    className="absolute right-0 top-full mt-2.5 z-40 w-64 rounded-2xl overflow-hidden animate-fade-in-scale p-2"
                     style={{
                       background: '#ffffff',
                       border: '1px solid var(--border-default)',
-                      boxShadow: 'var(--shadow-lg)',
+                      boxShadow: '0 16px 36px -4px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04)',
                     }}
                   >
-                    <div
-                      className="px-4 py-3"
-                      style={{ borderBottom: '1px solid var(--border-subtle)' }}
-                    >
-                      <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
-                        {user.name}
-                      </p>
-                      <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--text-muted)' }}>
-                        {user.email}
-                      </p>
+                    <div className="px-3.5 py-3 rounded-xl bg-slate-50/90 mb-1 border border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <div
+                          style={{
+                            background: 'linear-gradient(135deg, var(--brand-500), var(--accent-500))',
+                          }}
+                          className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-xs"
+                        >
+                          {getInitials(user.name, user.email)}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-extrabold text-slate-900 truncate">
+                            {user.name || user.email.split('@')[0]}
+                          </p>
+                          <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5">
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-2">
+                    <div className="p-1">
                       <button
                         onClick={() => { setUserDropOpen(false); logout(); }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer"
-                        style={{ color: 'var(--danger-400)' }}
-                        onMouseOver={(e) =>
-                          (e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)')
-                        }
-                        onMouseOut={(e) =>
-                          (e.currentTarget.style.background = 'transparent')
-                        }
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-red-600 hover:bg-red-50 hover:text-red-700"
                       >
-                        <LogOut className="w-4 h-4" />
-                        Sign out
+                        <LogOut className="w-4 h-4 text-red-500" />
+                        <span>Sign out of workspace</span>
                       </button>
                     </div>
                   </div>
