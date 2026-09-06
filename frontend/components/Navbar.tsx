@@ -137,14 +137,7 @@ export function Navbar() {
                     className="fixed inset-0 z-30"
                     onClick={() => setUserDropOpen(false)}
                   />
-                  <div
-                    className="absolute right-0 top-full mt-2.5 z-40 w-64 rounded-2xl overflow-hidden animate-fade-in-scale p-2"
-                    style={{
-                      background: '#ffffff',
-                      border: '1px solid var(--border-default)',
-                      boxShadow: '0 16px 36px -4px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04)',
-                    }}
-                  >
+                  <div className="user-dropdown-card animate-fade-in-scale">
                     <div className="px-3.5 py-3 rounded-xl bg-slate-50/90 mb-1 border border-slate-100">
                       <div className="flex items-center gap-3">
                         <div

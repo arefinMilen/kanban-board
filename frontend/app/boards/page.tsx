@@ -164,7 +164,7 @@ export default function BoardsPage() {
             </p>
 
             {/* Quick Metrics Bar */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-3">
+            <div className="metrics-bar-container flex flex-wrap items-center gap-4 sm:gap-6">
               <div className="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-white px-4 py-2 rounded-xl border border-slate-200/80 shadow-xs">
                 <FolderPlus className="w-4 h-4 text-indigo-600" />
                 <span>{boards.length} Active {boards.length === 1 ? 'Board' : 'Boards'}</span>

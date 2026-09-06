@@ -512,6 +512,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   border-radius: 24px;
   padding: 36px 40px !important;
+  margin-top: 28px !important;
   margin-bottom: 36px !important;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid var(--border-default);
@@ -521,8 +522,14 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 640px) {
   .hero-banner-card {
     padding: 24px 20px !important;
+    margin-top: 16px !important;
     margin-bottom: 24px !important;
   }
+}
+
+.metrics-bar-container {
+  margin-top: 24px !important;
+  padding-top: 4px;
 }
 
 .search-bar-wrapper {
@@ -562,6 +569,19 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
   width: 18px;
   height: 18px;
+}
+
+.user-dropdown-card {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 264px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04);
+  padding: 12px !important;
+  z-index: 50;
 }
 
 /* Hide mobile-only hamburger on desktop */
