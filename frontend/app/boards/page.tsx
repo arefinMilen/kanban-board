@@ -9,7 +9,6 @@ import {
   Plus,
   Layout,
   Users,
-  Shield,
   Loader2,
   AlertCircle,
   ChevronRight,
@@ -17,6 +16,7 @@ import {
   Layers,
   Star,
   Sparkles,
+  X,
 } from 'lucide-react';
 
 interface BoardSummary {
@@ -88,15 +88,15 @@ export default function BoardsPage() {
 
   if (isAuthLoading || (isLoading && boards.length === 0)) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <div
             style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)' }}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse-brand"
+            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg animate-pulse-brand"
           >
             <Layers className="w-6 h-6 text-white animate-spin-slow" />
           </div>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
             Loading your boards...
           </p>
         </div>
@@ -112,11 +112,11 @@ export default function BoardsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 animate-fade-in">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Good to see you,{' '}
             <span className="text-gradient">{user?.name?.split(' ')[0] ?? 'there'}</span> 👋
           </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mt-1 font-medium" style={{ color: 'var(--text-secondary)' }}>
             {boards.length === 0
               ? 'Create your first board to get started.'
               : `You have ${boards.length} board${boards.length !== 1 ? 's' : ''} in your workspace.`}
@@ -126,20 +126,20 @@ export default function BoardsPage() {
         <button
           id="create-board-btn"
           onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary flex-shrink-0"
+          className="btn btn-primary flex-shrink-0 shadow-md"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4.5 h-4.5" />
           New Board
         </button>
       </div>
 
-      {/* Error */}
+      {/* Error notification */}
       {error && (
         <div
-          className="mb-6 p-4 rounded-xl flex items-center gap-3 text-sm animate-fade-in"
+          className="mb-8 p-4 rounded-xl flex items-center gap-3 text-sm font-semibold animate-fade-in"
           style={{
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.25)',
+            background: 'rgba(239, 68, 68, 0.08)',
+            border: '1px solid rgba(239, 68, 68, 0.25)',
             color: 'var(--danger-400)',
           }}
         >
@@ -151,25 +151,26 @@ export default function BoardsPage() {
       {/* Empty state */}
       {boards.length === 0 ? (
         <div
-          className="flex flex-col items-center justify-center text-center py-20 rounded-2xl animate-fade-in"
+          className="flex flex-col items-center justify-center text-center py-20 px-6 rounded-2xl animate-fade-in"
           style={{
             border: '2px dashed var(--border-default)',
-            background: 'var(--bg-surface)',
+            background: '#ffffff',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
           <div
-            style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}
+            style={{ background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.2)' }}
             className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
           >
-            <Sparkles className="w-8 h-8" style={{ color: 'var(--brand-400)' }} />
+            <Sparkles className="w-8 h-8" style={{ color: 'var(--brand-600)' }} />
           </div>
-          <h2 className="text-xl font-bold mb-2">No boards yet</h2>
-          <p className="text-sm mb-8 max-w-sm" style={{ color: 'var(--text-secondary)' }}>
-            Create your first Kanban board to start organizing tasks, projects, and workflows with your team.
+          <h2 className="text-xl font-bold mb-2">No boards created yet</h2>
+          <p className="text-sm mb-8 max-w-md font-medium" style={{ color: 'var(--text-secondary)' }}>
+            Create your first Kanban board to start organizing tasks, managing projects, and collaborating with your team.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary"
+            className="btn btn-primary shadow-md"
           >
             <Plus className="w-4 h-4" />
             Create your first board
@@ -180,11 +181,11 @@ export default function BoardsPage() {
           {/* Owned boards */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-bold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                <Star className="w-3.5 h-3.5" style={{ color: 'var(--warning-400)' }} />
-                My Boards
+              <h2 className="text-xs font-extrabold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+                <Star className="w-4 h-4" style={{ color: '#d97706' }} />
+                My Boards ({ownedBoards.length})
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -195,11 +196,11 @@ export default function BoardsPage() {
           {/* Shared boards */}
           {sharedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                <Users className="w-3.5 h-3.5" style={{ color: 'var(--accent-400)' }} />
-                Shared with me
+              <h2 className="text-xs font-extrabold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+                <Users className="w-4 h-4" style={{ color: 'var(--accent-500)' }} />
+                Shared with me ({sharedBoards.length})
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -216,19 +217,26 @@ export default function BoardsPage() {
             className="modal-card p-6 sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-6">
-              <h2 className="text-xl font-bold">Create New Board</h2>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-                Name your board and start organizing your work.
-              </p>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold">Create New Board</h2>
+                <p className="text-xs mt-1 font-medium" style={{ color: 'var(--text-secondary)' }}>
+                  Name your board to start organizing tasks.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="btn-icon rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            <form onSubmit={handleCreateBoard} className="space-y-5">
-              <div>
+            <form onSubmit={handleCreateBoard} className="space-y-6">
+              <div className="form-field">
                 <label
                   htmlFor="new-board-name"
-                  className="block text-xs font-semibold uppercase tracking-wider mb-2"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="form-label"
                 >
                   Board Name
                 </label>
@@ -284,76 +292,64 @@ function BoardCard({ board }: { board: BoardSummary }) {
       href={`/boards/${board.id}`}
       className="group block rounded-2xl transition-all duration-200 relative overflow-hidden animate-fade-in"
       style={{
-        background: 'var(--bg-elevated)',
+        background: '#ffffff',
         border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-sm)',
         padding: '22px 22px 18px',
-        minHeight: '160px',
+        minHeight: '165px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
       onMouseOver={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)';
-        e.currentTarget.style.boxShadow = '0 4px 24px rgba(99,102,241,0.12)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.45)';
+        e.currentTarget.style.boxShadow = '0 10px 30px -5px rgba(99, 102, 241, 0.12)';
+        e.currentTarget.style.transform = 'translateY(-3px)';
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
         e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
-      {/* Gradient top strip */}
+      {/* Top accent border strip */}
       <div
-        className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
         style={{ background: 'linear-gradient(90deg, var(--brand-500), var(--accent-500))' }}
       />
 
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <h3
-          className="text-base font-bold truncate pr-2 transition-colors"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          {board.name}
-        </h3>
-        <span className={`badge ${role.class} flex-shrink-0`}>
-          {role.icon} {role.label}
-        </span>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
+          <h3
+            className="text-base font-bold truncate transition-colors group-hover:text-indigo-600"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {board.name}
+          </h3>
+          <span className={`badge ${role.class} flex-shrink-0`}>
+            {role.icon} {role.label}
+          </span>
+        </div>
+
+        <p className="text-xs font-medium truncate" style={{ color: 'var(--text-muted)' }}>
+          Owner: <span style={{ color: 'var(--text-secondary)' }}>{board.owner?.name}</span>
+        </p>
       </div>
 
-      <p className="text-xs truncate" style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
-        by {board.owner?.name}
-      </p>
-
-      <div
-        className="flex items-center justify-between text-xs"
-        style={{
-          borderTop: '1px solid var(--border-subtle)',
-          color: 'var(--text-muted)',
-          paddingTop: '14px',
-          marginTop: 'auto',
-        }}
-      >
-        <span className="flex items-center gap-1.5">
-          <Layout className="w-3.5 h-3.5" />
-          {board._count?.columns ?? 0} columns
+      <div className="mt-5 pt-3.5 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <Layout className="w-3.5 h-3.5 text-indigo-500" />
+            {board._count?.columns ?? 0} columns
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Users className="w-3.5 h-3.5 text-emerald-500" />
+            {board.members?.length ?? 1} {board.members?.length === 1 ? 'member' : 'members'}
+          </span>
+        </div>
+        <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity font-semibold" style={{ color: 'var(--brand-600)' }}>
+          View <ChevronRight className="w-3.5 h-3.5" />
         </span>
-        <span className="flex items-center gap-1.5">
-          <Users className="w-3.5 h-3.5" />
-          {board.members?.length ?? 1} members
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Clock className="w-3.5 h-3.5" />
-          {createdDate}
-        </span>
-      </div>
-
-      <div
-        className="mt-3 flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ color: 'var(--brand-400)' }}
-      >
-        <span>Open board</span>
-        <ChevronRight className="w-3.5 h-3.5" />
       </div>
     </Link>
   );
