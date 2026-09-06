@@ -114,7 +114,7 @@ export default function RegisterPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Alice Smith"
+                  placeholder="Rahim Uddin"
                   className="input input-icon-left"
                   autoComplete="name"
                 />
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="alice@example.com"
+                  placeholder="nusrat@example.com"
                   className="input input-icon-left"
                   autoComplete="email"
                 />
