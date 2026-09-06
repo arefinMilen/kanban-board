@@ -90,13 +90,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (email: string, password: string, name: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = name.trim();
     const data = await fetchApi<{
       user: User;
       accessToken: string;
       refreshToken: string;
     }>('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ email: cleanEmail, password, name: cleanName }),
       skipAuth: true,
     });
 
