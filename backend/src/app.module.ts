@@ -5,10 +5,11 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { BoardsModule } from './boards/boards.module';
+import { ColumnsModule } from './columns/columns.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
-  imports: [PrismaModule, AuthModule, BoardsModule],
+  imports: [PrismaModule, AuthModule, BoardsModule, ColumnsModule],
   controllers: [AppController],
   providers: [
     AppService,
