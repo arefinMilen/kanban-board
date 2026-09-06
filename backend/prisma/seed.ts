@@ -11,7 +11,7 @@ async function main() {
   // 1. Upsert Demo Users
   const ownerUser = await prisma.user.upsert({
     where: { email: 'owner@example.com' },
-    update: {},
+    update: { name: 'Rafiq Hossain' },
     create: {
       email: 'owner@example.com',
       passwordHash,
@@ -21,7 +21,7 @@ async function main() {
 
   const editorUser = await prisma.user.upsert({
     where: { email: 'editor@example.com' },
-    update: {},
+    update: { name: 'Nusrat Jahan' },
     create: {
       email: 'editor@example.com',
       passwordHash,
@@ -31,7 +31,7 @@ async function main() {
 
   const viewerUser = await prisma.user.upsert({
     where: { email: 'viewer@example.com' },
-    update: {},
+    update: { name: 'Tanvir Ahmed' },
     create: {
       email: 'viewer@example.com',
       passwordHash,
