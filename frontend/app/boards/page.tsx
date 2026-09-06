@@ -196,7 +196,7 @@ export default function BoardsPage() {
 
       {/* ── Search & Filter Controls ── */}
       {boards.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-10">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 mb-14 sm:mb-16">
           <div className="search-bar-wrapper">
             <Search className="search-bar-icon" />
             <input
@@ -225,7 +225,7 @@ export default function BoardsPage() {
       {/* Error Notification */}
       {error && (
         <div
-          className="mb-10 p-5 rounded-2xl flex items-center gap-3.5 text-sm font-semibold animate-fade-in"
+          className="mb-12 p-5 rounded-2xl flex items-center gap-3.5 text-sm font-semibold animate-fade-in"
           style={{
             background: 'rgba(239, 68, 68, 0.08)',
             border: '1.5px solid rgba(239, 68, 68, 0.22)',
@@ -278,12 +278,12 @@ export default function BoardsPage() {
           </button>
         </div>
       ) : (
-        <div className="space-y-16">
+        <div className="space-y-20 sm:space-y-24">
           
           {/* ── Owned Boards Section ── */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <div className="flex items-center gap-3.5 mb-8">
+              <div className="flex items-center gap-3.5 mb-10 sm:mb-12">
                 <div className="p-2.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-600 shadow-xs">
                   <Star className="w-4.5 h-4.5" />
                 </div>
@@ -292,7 +292,7 @@ export default function BoardsPage() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -320,7 +320,7 @@ export default function BoardsPage() {
           {/* ── Shared Boards Section ── */}
           {sharedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <div className="flex items-center gap-3.5 mb-8">
+              <div className="flex items-center gap-3.5 mb-10 sm:mb-12">
                 <div className="p-2.5 rounded-2xl bg-indigo-50 border border-indigo-200/80 text-indigo-600 shadow-xs">
                   <Users className="w-4.5 h-4.5" />
                 </div>
@@ -329,7 +329,7 @@ export default function BoardsPage() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-12 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}

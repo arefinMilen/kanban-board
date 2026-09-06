@@ -514,7 +514,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 24px;
   padding: 36px 40px !important;
   margin-top: 28px !important;
-  margin-bottom: 36px !important;
+  margin-bottom: 48px !important;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid var(--border-default);
   box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03);
