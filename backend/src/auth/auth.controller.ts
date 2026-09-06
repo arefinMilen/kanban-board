@@ -31,7 +31,7 @@ export class AuthController {
   }
 
   @Get('me')
-  async getProfile(@CurrentUser() user: UserPayload) {
-    return user;
+  async getProfile(@CurrentUser('userId') userId: string) {
+    return this.authService.getProfile(userId);
   }
 }

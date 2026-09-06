@@ -106,7 +106,19 @@ export default function BoardsPage() {
 
   const ownedBoards = boards.filter((b) => b.myRole === 'OWNER');
   const sharedBoards = boards.filter((b) => b.myRole !== 'OWNER');
-  const userName = user?.name ? user.name.split(' ')[0] : 'there';
+  
+  const firstName = user?.name 
+    ? user.name.trim().split(' ')[0] 
+    : user?.email 
+      ? user.email.split('@')[0] 
+      : 'there';
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
 
   return (
     <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -114,7 +126,7 @@ export default function BoardsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-8 border-b border-slate-200/80 mb-10 animate-fade-in">
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            Good to see you, <span className="text-gradient">{userName}</span> 👋
+            {getGreeting()}, <span className="text-gradient">{firstName}</span> 👋
           </h1>
           <p className="text-sm font-medium text-slate-500 leading-relaxed">
             {boards.length === 0

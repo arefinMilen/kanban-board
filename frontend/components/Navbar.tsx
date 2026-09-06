@@ -25,6 +25,18 @@ export function Navbar() {
     { href: '/boards', label: 'My Boards', icon: LayoutDashboard },
   ];
 
+  const getInitials = (name?: string, email?: string) => {
+    if (name && name.trim()) {
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+      return parts[0][0].toUpperCase();
+    }
+    if (email && email.trim()) {
+      return email.charAt(0).toUpperCase();
+    }
+    return 'U';
+  };
+
   return (
     <>
       <header
@@ -103,12 +115,12 @@ export function Navbar() {
                   style={{
                     background: 'linear-gradient(135deg, var(--brand-500), var(--accent-500))',
                   }}
-                  className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                  className="w-6.5 h-6.5 rounded-full flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0"
                 >
-                  {user.name?.charAt(0).toUpperCase() ?? 'U'}
+                  {getInitials(user.name, user.email)}
                 </div>
                 <span className="text-sm font-semibold max-w-[130px] truncate">
-                  {user.name}
+                  {user.name || user.email.split('@')[0]}
                 </span>
                 <ChevronDown
                   className="w-3.5 h-3.5 transition-transform"
@@ -215,11 +227,11 @@ export function Navbar() {
                   }}
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0"
                 >
-                  {user.name?.charAt(0).toUpperCase() ?? 'U'}
+                  {getInitials(user.name, user.email)}
                 </div>
                 <div className="min-w-0">
                   <p className="font-bold text-sm truncate" style={{ color: 'var(--text-primary)' }}>
-                    {user.name}
+                    {user.name || user.email.split('@')[0]}
                   </p>
                   <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>
                     {user.email}
