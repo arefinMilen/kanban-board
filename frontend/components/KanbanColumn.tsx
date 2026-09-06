@@ -94,26 +94,25 @@ export function KanbanColumn({
       ref={setNodeRef}
       className="flex-shrink-0 flex flex-col scroll-snap-start"
       style={{
-        /* Wider columns with a comfortable minimum */
-        width: '320px',
+        width: '330px',
         maxHeight: '100%',
-        background: isOver ? 'rgba(99,102,241,0.06)' : 'var(--bg-surface)',
+        background: isOver ? 'rgba(99, 102, 241, 0.05)' : '#ffffff',
         border: isOver
-          ? '1.5px solid rgba(99,102,241,0.55)'
+          ? '1.5px solid rgba(99, 102, 241, 0.6)'
           : '1px solid var(--border-default)',
-        borderRadius: 'var(--radius-xl)',
+        borderRadius: '24px',
         boxShadow: isOver
-          ? '0 0 0 4px rgba(99,102,241,0.14), var(--shadow-md)'
-          : 'var(--shadow-sm)',
-        transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s',
+          ? '0 0 0 4px rgba(99, 102, 241, 0.14), 0 8px 24px rgba(15, 23, 42, 0.08)'
+          : '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02)',
+        transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
       {/* ── Column Header ─────────────────────────────── */}
       <div
         className="flex items-center justify-between flex-shrink-0"
         style={{
-          padding: '16px 18px',
-          borderBottom: '1px solid var(--border-subtle)',
+          padding: '18px 20px 14px',
+          borderBottom: '1px solid #f1f5f9',
         }}
       >
         {isEditingTitle ? (
@@ -127,7 +126,7 @@ export function KanbanColumn({
                 if (e.key === 'Escape') setIsEditingTitle(false);
               }}
               className="input text-sm font-bold flex-1"
-              style={{ padding: '6px 10px' }}
+              style={{ padding: '6px 10px', borderRadius: '10px' }}
               autoFocus
             />
             <button onClick={() => setIsEditingTitle(false)} className="btn-icon flex-shrink-0">
@@ -136,7 +135,7 @@ export function KanbanColumn({
             <button
               onClick={handleSaveTitle}
               className="btn-icon flex-shrink-0"
-              style={{ color: 'var(--accent-400)' }}
+              style={{ color: 'var(--accent-500)' }}
             >
               <Check className="w-4 h-4" />
             </button>
@@ -144,18 +143,18 @@ export function KanbanColumn({
         ) : (
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <h3
-              className="text-sm font-bold truncate"
-              style={{ color: 'var(--text-primary)', letterSpacing: '-0.01em' }}
+              className="text-base font-extrabold truncate"
+              style={{ color: '#0f172a', letterSpacing: '-0.01em' }}
             >
               {column.title}
             </h3>
             <span
-              className="flex-shrink-0 px-2 py-0.5 text-xs font-bold rounded-full"
+              className="flex-shrink-0 px-2.5 py-0.5 text-xs font-extrabold rounded-full"
               style={{
-                background: 'var(--bg-overlay)',
-                border: '1px solid var(--border-default)',
-                color: 'var(--text-muted)',
-                minWidth: '22px',
+                background: '#f1f5f9',
+                border: '1px solid #e2e8f0',
+                color: '#475569',
+                minWidth: '24px',
                 textAlign: 'center',
               }}
             >
@@ -165,22 +164,18 @@ export function KanbanColumn({
         )}
 
         {canEdit && !isEditingTitle && (
-          <div className="flex items-center gap-0.5 ml-2 flex-shrink-0">
+          <div className="flex items-center gap-1 ml-2 flex-shrink-0">
             <button
               onClick={() => setIsEditingTitle(true)}
-              className="btn-icon rounded-lg"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-slate-100 transition-all cursor-pointer"
               title="Rename column"
-              onMouseOver={(e) => (e.currentTarget.style.color = 'var(--brand-400)')}
-              onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               <Edit2 className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={handleDeleteColumn}
-              className="btn-icon rounded-lg"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all cursor-pointer"
               title="Delete column"
-              onMouseOver={(e) => (e.currentTarget.style.color = 'var(--danger-400)')}
-              onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -192,10 +187,10 @@ export function KanbanColumn({
       <div
         className="flex-1 overflow-y-auto"
         style={{
-          padding: '14px 14px 8px',
+          padding: '16px 16px 12px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '10px',
+          gap: '12px',
           minHeight: '120px',
         }}
       >
@@ -211,17 +206,18 @@ export function KanbanColumn({
 
         {column.tasks.length === 0 && !isAddingTask && (
           <div
-            className="flex flex-col items-center justify-center text-center rounded-xl"
+            className="flex flex-col items-center justify-center text-center rounded-2xl"
             style={{
-              border: '1.5px dashed var(--border-default)',
-              color: 'var(--text-muted)',
-              padding: '28px 16px',
+              border: '1.5px dashed #cbd5e1',
+              color: '#94a3b8',
+              padding: '32px 16px',
               flex: 1,
+              background: '#f8fafc',
             }}
           >
-            <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}>📋</div>
-            <p style={{ fontSize: '0.78rem', fontWeight: 600 }}>No tasks yet</p>
-            <p style={{ fontSize: '0.72rem', marginTop: '2px' }}>Drop tasks here or add one below</p>
+            <div style={{ fontSize: '1.6rem', marginBottom: '6px' }}>📋</div>
+            <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>No tasks yet</p>
+            <p style={{ fontSize: '0.75rem', marginTop: '2px', color: '#94a3b8' }}>Drop tasks here or click below</p>
           </div>
         )}
       </div>
@@ -231,12 +227,12 @@ export function KanbanColumn({
         <div
           className="flex-shrink-0"
           style={{
-            padding: '10px 14px 14px',
-            borderTop: '1px solid var(--border-subtle)',
+            padding: '12px 16px 16px',
+            borderTop: '1px solid #f1f5f9',
           }}
         >
           {isAddingTask ? (
-            <form onSubmit={handleCreateTask} className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <form onSubmit={handleCreateTask} className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <input
                 type="text"
                 required
@@ -252,7 +248,7 @@ export function KanbanColumn({
                 }}
                 placeholder="Task title..."
                 className="input"
-                style={{ fontSize: '0.875rem', padding: '9px 12px' }}
+                style={{ fontSize: '0.875rem', padding: '10px 14px', borderRadius: '12px' }}
               />
               <textarea
                 value={newTaskDesc}
@@ -260,7 +256,7 @@ export function KanbanColumn({
                 placeholder="Description (optional)"
                 rows={2}
                 className="input"
-                style={{ fontSize: '0.8rem', padding: '8px 12px', resize: 'none' }}
+                style={{ fontSize: '0.8rem', padding: '10px 14px', borderRadius: '12px', resize: 'none' }}
               />
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button
@@ -271,7 +267,7 @@ export function KanbanColumn({
                     setNewTaskDesc('');
                   }}
                   className="btn btn-ghost"
-                  style={{ flex: 1, fontSize: '0.8rem', padding: '8px 12px' }}
+                  style={{ flex: 1, fontSize: '0.8rem', padding: '9px 12px', borderRadius: '12px' }}
                 >
                   Cancel
                 </button>
@@ -279,7 +275,7 @@ export function KanbanColumn({
                   type="submit"
                   disabled={isSubmittingTask || !newTaskTitle.trim()}
                   className="btn btn-primary"
-                  style={{ flex: 1, fontSize: '0.8rem', padding: '8px 12px' }}
+                  style={{ flex: 1, fontSize: '0.8rem', padding: '9px 12px', borderRadius: '12px', fontWeight: 800 }}
                 >
                   {isSubmittingTask && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   {isSubmittingTask ? 'Adding...' : 'Add Task'}
@@ -295,29 +291,29 @@ export function KanbanColumn({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '6px',
-                padding: '9px 14px',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--text-muted)',
-                border: '1.5px dashed var(--border-default)',
-                background: 'transparent',
+                gap: '8px',
+                padding: '10px 16px',
+                borderRadius: '14px',
+                fontSize: '0.825rem',
+                fontWeight: 700,
+                color: '#4f46e5',
+                border: '1.5px dashed rgba(99, 102, 241, 0.3)',
+                background: 'rgba(99, 102, 241, 0.04)',
                 cursor: 'pointer',
-                transition: 'all 0.15s',
+                transition: 'all 0.18s ease',
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.color = 'var(--brand-400)';
-                e.currentTarget.style.borderColor = 'rgba(99,102,241,0.45)';
-                e.currentTarget.style.background = 'rgba(99,102,241,0.07)';
+                e.currentTarget.style.color = '#4338ca';
+                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.55)';
+                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.09)';
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.color = 'var(--text-muted)';
-                e.currentTarget.style.borderColor = 'var(--border-default)';
-                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#4f46e5';
+                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.04)';
               }}
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 stroke-[2.5]" />
               Add task
             </button>
           )}
