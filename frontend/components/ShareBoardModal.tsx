@@ -146,7 +146,7 @@ export function ShareBoardModal({
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="colleague@example.com"
+                    placeholder="tanvir@example.com"
                     className="input text-sm flex-1"
                   />
                   <select
