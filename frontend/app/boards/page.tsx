@@ -135,83 +135,83 @@ export default function BoardsPage() {
   ).size;
 
   return (
-    <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <div className="flex-1 max-w-7xl w-full mx-auto px-6 sm:px-10 lg:px-12 py-8 sm:py-12">
       
       {/* ── Hero Welcome Banner ── */}
       <div
-        className="relative overflow-hidden rounded-3xl p-6 sm:p-8 mb-10 transition-all duration-300"
+        className="relative overflow-hidden rounded-[28px] p-8 sm:p-10 lg:p-12 mb-12 transition-all duration-300"
         style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
           border: '1px solid var(--border-default)',
-          boxShadow: '0 4px 20px -2px rgba(99, 102, 241, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)',
+          boxShadow: '0 10px 40px -10px rgba(99, 102, 241, 0.10), 0 2px 8px rgba(0, 0, 0, 0.03)',
         }}
       >
-        {/* Soft Background Accent Glow */}
+        {/* Ambient Radial Mesh */}
         <div
           aria-hidden="true"
-          className="absolute -top-24 -right-24 w-80 h-80 rounded-full pointer-events-none"
+          className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none"
           style={{
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%)',
           }}
         />
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="space-y-4 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100/80 text-indigo-700 text-xs font-extrabold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Kanban Pro Workspace</span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
               {getGreeting()}, <span className="text-gradient">{firstName}</span> 👋
             </h1>
 
-            <p className="text-sm sm:text-base font-medium text-slate-600 leading-relaxed">
+            <p className="text-base font-medium text-slate-600 leading-relaxed">
               Manage your project boards, track task progress with fractional ordering, and collaborate with your team seamlessly.
             </p>
 
             {/* Quick Metrics Bar */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200/60">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-3">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-white px-4 py-2 rounded-xl border border-slate-200/80 shadow-xs">
                 <FolderPlus className="w-4 h-4 text-indigo-600" />
                 <span>{boards.length} Active {boards.length === 1 ? 'Board' : 'Boards'}</span>
               </div>
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200/60">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-white px-4 py-2 rounded-xl border border-slate-200/80 shadow-xs">
                 <Layout className="w-4 h-4 text-emerald-600" />
                 <span>{totalColumns} Workflow {totalColumns === 1 ? 'Column' : 'Columns'}</span>
               </div>
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-700 bg-slate-100/80 px-3.5 py-1.5 rounded-xl border border-slate-200/60">
+              <div className="flex items-center gap-2.5 text-xs font-bold text-slate-700 bg-white px-4 py-2 rounded-xl border border-slate-200/80 shadow-xs">
                 <Users className="w-4 h-4 text-amber-600" />
                 <span>{totalMembers > 0 ? totalMembers : 1} Team {totalMembers === 1 ? 'Member' : 'Members'}</span>
               </div>
             </div>
           </div>
 
-          {/* Action Button */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-shrink-0">
+          {/* Primary Action Button */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 flex-shrink-0 pt-2 lg:pt-0">
             <button
               id="create-board-btn"
               onClick={() => setIsModalOpen(true)}
-              className="btn btn-primary shadow-lg py-3 px-6 text-sm font-bold flex items-center justify-center gap-2 rounded-xl"
+              className="btn btn-primary shadow-xl py-3.5 px-7 text-sm font-bold flex items-center justify-center gap-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02]"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-5 h-5 stroke-[2.5]" />
               <span>Create New Board</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* ── Search Bar & Section Controls ── */}
+      {/* ── Search & Filter Controls Card ── */}
       {boards.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 sm:mb-10">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-12 p-4 sm:p-5 rounded-2xl bg-white/80 border border-slate-200/80 shadow-xs backdrop-blur-md">
           <div className="relative flex-1 max-w-md">
             <Search className="w-4.5 h-4.5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search boards by name..."
-              className="input pl-11 pr-10 py-2.5 text-sm rounded-xl w-full bg-white border-slate-200 shadow-xs focus:bg-white"
+              placeholder="Search boards by title..."
+              className="input pl-11 pr-10 py-3 text-sm rounded-xl w-full bg-slate-50/60 border-slate-200 focus:bg-white transition-all"
             />
             {searchQuery && (
               <button
@@ -223,8 +223,8 @@ export default function BoardsPage() {
             )}
           </div>
 
-          <div className="text-xs font-semibold text-slate-500 self-end sm:self-auto">
-            Showing {filteredBoards.length} of {boards.length} total boards
+          <div className="text-xs font-bold text-slate-500 self-end sm:self-auto px-2">
+            Showing <span className="text-slate-900 font-extrabold">{filteredBoards.length}</span> of {boards.length} total boards
           </div>
         </div>
       )}
@@ -232,11 +232,11 @@ export default function BoardsPage() {
       {/* Error Notification */}
       {error && (
         <div
-          className="mb-8 p-4 rounded-xl flex items-center gap-3 text-sm font-semibold animate-fade-in"
+          className="mb-10 p-5 rounded-2xl flex items-center gap-3.5 text-sm font-semibold animate-fade-in"
           style={{
             background: 'rgba(239, 68, 68, 0.08)',
-            border: '1px solid rgba(239, 68, 68, 0.25)',
-            color: 'var(--danger-400)',
+            border: '1.5px solid rgba(239, 68, 68, 0.22)',
+            color: 'var(--danger-600)',
           }}
         >
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -247,7 +247,7 @@ export default function BoardsPage() {
       {/* ── Empty State ── */}
       {boards.length === 0 ? (
         <div
-          className="flex flex-col items-center justify-center text-center py-20 px-6 rounded-3xl animate-fade-in"
+          className="flex flex-col items-center justify-center text-center py-20 px-8 rounded-3xl animate-fade-in"
           style={{
             border: '2px dashed var(--border-default)',
             background: '#ffffff',
@@ -260,46 +260,46 @@ export default function BoardsPage() {
           >
             <Sparkles className="w-8 h-8 text-indigo-600" />
           </div>
-          <h2 className="text-xl font-bold mb-3 text-slate-900">No boards created yet</h2>
+          <h2 className="text-2xl font-extrabold mb-3 text-slate-900">No boards created yet</h2>
           <p className="text-sm mb-8 max-w-md font-medium text-slate-500 leading-relaxed">
             Create your first Kanban board to start organizing tasks, managing projects, and collaborating with your team.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary shadow-md"
+            className="btn btn-primary shadow-lg py-3 px-6"
           >
-            <Plus className="w-4.5 h-4.5" />
+            <Plus className="w-5 h-5" />
             Create your first board
           </button>
         </div>
       ) : filteredBoards.length === 0 ? (
-        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-          <Search className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-slate-800 mb-1">No boards found</h3>
-          <p className="text-xs text-slate-500 mb-4">No boards matched your search query &quot;{searchQuery}&quot;.</p>
+        <div className="text-center py-20 px-6 bg-white rounded-3xl border border-slate-200/80 shadow-xs">
+          <Search className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+          <h3 className="text-lg font-bold text-slate-900 mb-1">No matching boards found</h3>
+          <p className="text-sm text-slate-500 mb-6">No boards matched your search query &quot;{searchQuery}&quot;.</p>
           <button
             onClick={() => setSearchQuery('')}
-            className="btn btn-ghost text-xs font-semibold text-indigo-600"
+            className="btn btn-ghost text-xs font-bold text-indigo-600"
           >
             Clear search filter
           </button>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-16">
           
           {/* ── Owned Boards Section ── */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-xl bg-amber-50 border border-amber-200/70 text-amber-600 shadow-xs">
-                  <Star className="w-4 h-4" />
+              <div className="flex items-center gap-3.5 mb-8">
+                <div className="p-2.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-600 shadow-xs">
+                  <Star className="w-4.5 h-4.5" />
                 </div>
-                <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700">
-                  My Boards <span className="text-slate-400 font-semibold ml-2">({ownedBoards.length})</span>
+                <h2 className="text-xs font-black uppercase tracking-widest text-slate-500">
+                  My Boards <span className="text-slate-900 font-extrabold ml-2 bg-slate-100 px-2.5 py-0.5 rounded-full">({ownedBoards.length})</span>
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -308,15 +308,15 @@ export default function BoardsPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(true)}
-                  className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-slate-200/90 hover:border-indigo-400/80 bg-slate-50/50 hover:bg-indigo-50/30 transition-all duration-200 min-h-[220px] text-center cursor-pointer"
+                  className="group flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-dashed border-slate-200 hover:border-indigo-400 bg-white/60 hover:bg-indigo-50/40 transition-all duration-200 min-h-[240px] text-center cursor-pointer shadow-xs hover:shadow-md"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-indigo-600 group-hover:border-indigo-200 group-hover:scale-110 shadow-xs transition-all mb-3">
-                    <Plus className="w-6 h-6" />
+                  <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:scale-110 shadow-xs transition-all mb-4">
+                    <Plus className="w-7 h-7 stroke-[2.2]" />
                   </div>
-                  <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-600">
+                  <span className="text-base font-extrabold text-slate-800 group-hover:text-indigo-600">
                     Create New Board
                   </span>
-                  <span className="text-xs text-slate-400 mt-1">
+                  <span className="text-xs font-semibold text-slate-400 mt-1.5 max-w-[200px] leading-relaxed">
                     Add a new project board to your workspace
                   </span>
                 </button>
@@ -327,16 +327,16 @@ export default function BoardsPage() {
           {/* ── Shared Boards Section ── */}
           {sharedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200/70 text-indigo-600 shadow-xs">
-                  <Users className="w-4 h-4" />
+              <div className="flex items-center gap-3.5 mb-8">
+                <div className="p-2.5 rounded-2xl bg-indigo-50 border border-indigo-200/80 text-indigo-600 shadow-xs">
+                  <Users className="w-4.5 h-4.5" />
                 </div>
-                <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700">
-                  Shared with me <span className="text-slate-400 font-semibold ml-2">({sharedBoards.length})</span>
+                <h2 className="text-xs font-black uppercase tracking-widest text-slate-500">
+                  Shared with me <span className="text-slate-900 font-extrabold ml-2 bg-slate-100 px-2.5 py-0.5 rounded-full">({sharedBoards.length})</span>
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -350,19 +350,19 @@ export default function BoardsPage() {
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div
-            className="modal-card p-6 sm:p-8 max-w-lg w-full"
+            className="modal-card p-6 sm:p-8 max-w-lg w-full rounded-3xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
               <div>
-                <h2 className="text-xl font-bold text-slate-900">Create New Board</h2>
+                <h2 className="text-xl font-extrabold text-slate-900">Create New Board</h2>
                 <p className="text-xs mt-1.5 font-medium text-slate-500">
                   Name your board to start organizing tasks.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="btn-icon rounded-lg"
+                className="btn-icon rounded-xl"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -393,7 +393,7 @@ export default function BoardsPage() {
                 <button
                   type="button"
                   onClick={() => { setIsModalOpen(false); setNewBoardName(''); }}
-                  className="btn btn-ghost flex-1"
+                  className="btn btn-ghost flex-1 rounded-xl"
                 >
                   Cancel
                 </button>
@@ -401,7 +401,7 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="btn btn-primary flex-1 shadow-md"
+                  className="btn btn-primary flex-1 shadow-md rounded-xl"
                 >
                   {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
@@ -426,25 +426,25 @@ function BoardCard({ board }: { board: BoardSummary }) {
   return (
     <Link
       href={`/boards/${board.id}`}
-      className="group block rounded-2xl transition-all duration-200 relative overflow-hidden animate-fade-in"
+      className="group block rounded-3xl transition-all duration-200 relative overflow-hidden animate-fade-in"
       style={{
         background: '#ffffff',
         border: '1px solid var(--border-default)',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03)',
-        padding: '24px',
-        minHeight: '220px',
+        boxShadow: '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02)',
+        padding: '28px',
+        minHeight: '240px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.45)';
-        e.currentTarget.style.boxShadow = '0 16px 36px -4px rgba(99, 102, 241, 0.12)';
-        e.currentTarget.style.transform = 'translateY(-3px)';
+        e.currentTarget.style.boxShadow = '0 20px 40px -6px rgba(99, 102, 241, 0.15)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.03)';
+        e.currentTarget.style.boxShadow = '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02)';
         e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
@@ -456,29 +456,29 @@ function BoardCard({ board }: { board: BoardSummary }) {
 
       {/* Card Header & Owner */}
       <div>
-        <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-start justify-between gap-3 mb-4">
           <h3
-            className="text-lg font-extrabold tracking-tight leading-snug truncate transition-colors group-hover:text-indigo-600"
+            className="text-xl font-extrabold tracking-tight leading-snug truncate transition-colors group-hover:text-indigo-600"
             style={{ color: 'var(--text-primary)' }}
           >
             {board.name}
           </h3>
-          <span className={`badge ${role.class} flex-shrink-0 px-2.5 py-1 text-[11px]`}>
+          <span className={`badge ${role.class} flex-shrink-0 px-3 py-1 text-[11px]`}>
             {role.icon} {role.label}
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mt-2 mb-4">
-          <UserCheck className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mt-2 mb-6">
+          <UserCheck className="w-4 h-4 text-slate-400 flex-shrink-0" />
           <span>Owner:</span>
-          <span className="text-slate-800 font-bold ml-0.5">{board.owner?.name ?? 'Unknown'}</span>
+          <span className="text-slate-800 font-extrabold ml-0.5">{board.owner?.name ?? 'Unknown'}</span>
         </div>
       </div>
 
       {/* Card Footer: Members Stack + Stats */}
-      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-500 mt-auto">
+      <div className="pt-5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-500 mt-auto">
         {/* Left: Overlapping Avatars */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3.5">
           <div className="flex -space-x-2 overflow-hidden">
             {displayMembers.map((m, idx) => {
               const name = m.user?.name || 'User';
@@ -487,7 +487,7 @@ function BoardCard({ board }: { board: BoardSummary }) {
                 <div
                   key={m.id || idx}
                   title={name}
-                  className="w-6.5 h-6.5 rounded-full ring-2 ring-white flex items-center justify-center text-[10px] font-bold text-white shadow-xs"
+                  className="w-7 h-7 rounded-full ring-2 ring-white flex items-center justify-center text-[11px] font-bold text-white shadow-xs"
                   style={{
                     background:
                       idx === 0
@@ -502,25 +502,26 @@ function BoardCard({ board }: { board: BoardSummary }) {
               );
             })}
             {extraCount > 0 && (
-              <div className="w-6.5 h-6.5 rounded-full ring-2 ring-white bg-slate-100 text-slate-600 flex items-center justify-center text-[10px] font-extrabold shadow-xs">
+              <div className="w-7 h-7 rounded-full ring-2 ring-white bg-slate-100 text-slate-600 flex items-center justify-center text-[10px] font-extrabold shadow-xs">
                 +{extraCount}
               </div>
             )}
           </div>
 
-          <span className="flex items-center gap-1 text-slate-500">
-            <Layout className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" />
+          <span className="flex items-center gap-1.5 text-slate-500 font-bold">
+            <Layout className="w-4 h-4 text-indigo-500 flex-shrink-0" />
             {board._count?.columns ?? 0} {board._count?.columns === 1 ? 'col' : 'cols'}
           </span>
         </div>
 
         {/* Right: Open Arrow */}
-        <span className="flex items-center gap-0.5 opacity-80 group-hover:opacity-100 transition-all font-bold text-indigo-600 group-hover:translate-x-0.5">
+        <span className="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-all font-extrabold text-indigo-600 group-hover:translate-x-1">
           <span>Open</span>
-          <ArrowUpRight className="w-4 h-4" />
+          <ArrowUpRight className="w-4.5 h-4.5" />
         </span>
       </div>
     </Link>
   );
 }
+
 
