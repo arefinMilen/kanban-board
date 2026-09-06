@@ -7,106 +7,113 @@ import { Layers, Lock, Mail, User, Loader2, Eye, EyeOff, ArrowRight } from 'luci
 
 export default function RegisterPage() {
   const { register } = useAuth();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [name,          setName]          = useState('');
+  const [email,         setEmail]         = useState('');
+  const [password,      setPassword]      = useState('');
+  const [showPassword,  setShowPassword]  = useState(false);
+  const [error,         setError]         = useState<string | null>(null);
+  const [isSubmitting,  setIsSubmitting]  = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
     setError(null);
     setIsSubmitting(true);
     try {
-      await register(email, password, name);
+      await register(name, email, password);
     } catch (err: any) {
-      setError(err.message || 'Failed to create account');
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div
-      className="flex-1 flex items-center justify-center px-4 py-12"
-      style={{ minHeight: 'calc(100vh - 3.5rem)' }}
-    >
-      {/* Background glow */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          top: '-20%',
-          right: '10%',
-          width: '500px',
-          height: '400px',
-          background:
-            'radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+    <div className="auth-page">
+      {/* Soft decorative blobs */}
+      <div aria-hidden="true" style={{
+        position: 'fixed', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 0,
+      }}>
+        <div style={{
+          position: 'absolute', top: '-8%', right: '-5%',
+          width: '420px', height: '420px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 70%)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '-10%', left: '-8%',
+          width: '360px', height: '360px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%)',
+        }} />
+      </div>
 
-      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
-        {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
+      <div style={{ width: '100%', maxWidth: '440px', position: 'relative', zIndex: 1 }}>
+
+        {/* ── Logo ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '32px' }}>
           <div
+            className="animate-float"
             style={{
-              background: 'linear-gradient(135deg, #6366f1, #10b981)',
-              boxShadow: '0 0 24px rgba(16,185,129,0.4)',
+              width: '56px', height: '56px', borderRadius: '16px',
+              background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+              boxShadow: '0 8px 24px rgba(99,102,241,0.35)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: '16px',
             }}
-            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
           >
-            <Layers className="w-7 h-7 text-white" strokeWidth={2} />
+            <Layers style={{ width: '26px', height: '26px', color: '#fff' }} strokeWidth={2} />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight">Create your account</h1>
-          <p className="text-sm mt-1.5" style={{ color: 'var(--text-secondary)' }}>
-            Get started with Kanban Pro for free
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '6px' }}>
+            Create your account
+          </h1>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+            Join Kanban Pro and start organizing your work
           </p>
         </div>
 
-        {/* Card */}
-        <div
-        className="rounded-2xl shadow-2xl"
-          style={{
-            background: 'rgba(22,27,34,0.80)',
-            border: '1px solid var(--border-default)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            padding: '36px 32px',
-          }}
-        >
+        {/* ── Card ── */}
+        <div className="auth-card">
+
+          {/* Error message */}
           {error && (
             <div
-              className="mb-5 p-3.5 rounded-xl flex items-start gap-2.5 text-sm animate-fade-in"
+              className="animate-fade-in"
               style={{
-                background: 'rgba(239,68,68,0.1)',
-                border: '1px solid rgba(239,68,68,0.3)',
-                color: 'var(--danger-400)',
+                marginBottom: '20px',
+                padding: '12px 14px',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--danger-50)',
+                border: '1.5px solid rgba(220,38,38,0.22)',
+                color: 'var(--danger-600)',
+                fontSize: '0.85rem',
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
               }}
             >
-              <span>⚠️</span>
+              <span style={{ flexShrink: 0 }}>⚠️</span>
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
-            <div>
-              <label
-                htmlFor="register-name"
-                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+          <form onSubmit={handleSubmit}>
+
+            {/* ── Full Name ── */}
+            <div className="form-group">
+              <label htmlFor="register-name" className="form-label">
                 Full Name
               </label>
-              <div className="relative">
-                <div
-                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  <User className="w-4 h-4" />
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute', top: '50%', left: '14px',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)', pointerEvents: 'none',
+                  display: 'flex', alignItems: 'center',
+                }}>
+                  <User style={{ width: '16px', height: '16px' }} />
                 </div>
                 <input
                   id="register-name"
@@ -121,21 +128,19 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="register-email"
-                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+            {/* ── Email ── */}
+            <div className="form-group" style={{ marginTop: '20px' }}>
+              <label htmlFor="register-email" className="form-label">
                 Email Address
               </label>
-              <div className="relative">
-                <div
-                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  <Mail className="w-4 h-4" />
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute', top: '50%', left: '14px',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)', pointerEvents: 'none',
+                  display: 'flex', alignItems: 'center',
+                }}>
+                  <Mail style={{ width: '16px', height: '16px' }} />
                 </div>
                 <input
                   id="register-email"
@@ -150,77 +155,83 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="register-password"
-                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
-                style={{ color: 'var(--text-secondary)' }}
-              >
+            {/* ── Password ── */}
+            <div className="form-group" style={{ marginTop: '20px' }}>
+              <label htmlFor="register-password" className="form-label">
                 Password
               </label>
-              <div className="relative">
-                <div
-                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  <Lock className="w-4 h-4" />
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  position: 'absolute', top: '50%', left: '14px',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)', pointerEvents: 'none',
+                  display: 'flex', alignItems: 'center',
+                }}>
+                  <Lock style={{ width: '16px', height: '16px' }} />
                 </div>
                 <input
                   id="register-password"
                   type={showPassword ? 'text' : 'password'}
                   required
-                  minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Min. 6 characters"
-                  className="input input-icon-left pr-11"
+                  placeholder="Min. 8 characters"
+                  className="input input-icon-left"
+                  style={{ paddingRight: '44px' }}
                   autoComplete="new-password"
+                  minLength={8}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-3 flex items-center btn-icon"
+                  className="btn-icon"
                   aria-label="Toggle password visibility"
+                  style={{
+                    position: 'absolute', top: '50%', right: '10px',
+                    transform: 'translateY(-50%)', padding: '6px',
+                  }}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword
+                    ? <EyeOff style={{ width: '16px', height: '16px' }} />
+                    : <Eye    style={{ width: '16px', height: '16px' }} />
+                  }
                 </button>
               </div>
-              <p className="mt-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-                Must be at least 6 characters with a number & special character.
+              {/* Password hint */}
+              <p style={{ marginTop: '6px', fontSize: '0.76rem', color: 'var(--text-muted)' }}>
+                Use at least 8 characters with a number and symbol (e.g. Password123!)
               </p>
             </div>
 
+            {/* ── Submit ── */}
             <button
               id="register-submit-btn"
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary w-full py-3 text-sm"
-              style={{
-                background: 'linear-gradient(135deg, #6366f1, #10b981)',
-              }}
+              className="btn btn-primary"
+              style={{ width: '100%', marginTop: '28px', padding: '13px 20px', fontSize: '0.9rem' }}
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Creating account...</span>
+                  <Loader2 style={{ width: '16px', height: '16px' }} className="animate-spin" />
+                  <span>Creating account…</span>
                 </>
               ) : (
                 <>
                   <span>Create Account</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight style={{ width: '16px', height: '16px' }} />
                 </>
               )}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-sm mt-5" style={{ color: 'var(--text-muted)' }}>
+        {/* Footer link */}
+        <p style={{ textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '20px' }}>
           Already have an account?{' '}
           <Link
             href="/login"
-            className="font-semibold transition-colors"
-            style={{ color: 'var(--brand-400)' }}
+            style={{ color: 'var(--brand-500)', fontWeight: 600 }}
           >
             Sign in
           </Link>

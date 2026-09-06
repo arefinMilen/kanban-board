@@ -9,14 +9,14 @@ import {
   Plus,
   Layout,
   Users,
-  Shield,
   Loader2,
   AlertCircle,
   ChevronRight,
-  Clock,
   Layers,
   Star,
   Sparkles,
+  X,
+  UserCheck,
 } from 'lucide-react';
 
 interface BoardSummary {
@@ -88,15 +88,15 @@ export default function BoardsPage() {
 
   if (isAuthLoading || (isLoading && boards.length === 0)) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <div
             style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)' }}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse-brand"
+            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg animate-pulse-brand"
           >
             <Layers className="w-6 h-6 text-white animate-spin-slow" />
           </div>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm font-semibold text-slate-500">
             Loading your boards...
           </p>
         </div>
@@ -106,40 +106,40 @@ export default function BoardsPage() {
 
   const ownedBoards = boards.filter((b) => b.myRole === 'OWNER');
   const sharedBoards = boards.filter((b) => b.myRole !== 'OWNER');
+  const userName = user?.name ? user.name.split(' ')[0] : 'there';
 
   return (
-    <div className="flex-1 max-w-screen-xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 animate-fade-in">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Good to see you,{' '}
-            <span className="text-gradient">{user?.name?.split(' ')[0] ?? 'there'}</span> 👋
+    <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      {/* Page Header Area */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-8 border-b border-slate-200/80 mb-10 animate-fade-in">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Good to see you, <span className="text-gradient">{userName}</span> 👋
           </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm font-medium text-slate-500 leading-relaxed">
             {boards.length === 0
               ? 'Create your first board to get started.'
-              : `You have ${boards.length} board${boards.length !== 1 ? 's' : ''} in your workspace.`}
+              : `You have ${boards.length} active board${boards.length !== 1 ? 's' : ''} in your workspace.`}
           </p>
         </div>
 
         <button
           id="create-board-btn"
           onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary flex-shrink-0"
+          className="btn btn-primary flex-shrink-0 shadow-md py-2.5 px-5 self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4.5 h-4.5" />
           New Board
         </button>
       </div>
 
-      {/* Error */}
+      {/* Error Notification */}
       {error && (
         <div
-          className="mb-6 p-4 rounded-xl flex items-center gap-3 text-sm animate-fade-in"
+          className="mb-8 p-4 rounded-xl flex items-center gap-3 text-sm font-semibold animate-fade-in"
           style={{
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.25)',
+            background: 'rgba(239, 68, 68, 0.08)',
+            border: '1px solid rgba(239, 68, 68, 0.25)',
             color: 'var(--danger-400)',
           }}
         >
@@ -148,43 +148,49 @@ export default function BoardsPage() {
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Empty State */}
       {boards.length === 0 ? (
         <div
-          className="flex flex-col items-center justify-center text-center py-20 rounded-2xl animate-fade-in"
+          className="flex flex-col items-center justify-center text-center py-20 px-6 rounded-2xl animate-fade-in"
           style={{
             border: '2px dashed var(--border-default)',
-            background: 'var(--bg-surface)',
+            background: '#ffffff',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
           <div
-            style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
+            style={{ background: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.2)' }}
+            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
           >
-            <Sparkles className="w-8 h-8" style={{ color: 'var(--brand-400)' }} />
+            <Sparkles className="w-8 h-8 text-indigo-600" />
           </div>
-          <h2 className="text-xl font-bold mb-2">No boards yet</h2>
-          <p className="text-sm mb-8 max-w-sm" style={{ color: 'var(--text-secondary)' }}>
-            Create your first Kanban board to start organizing tasks, projects, and workflows with your team.
+          <h2 className="text-xl font-bold mb-3 text-slate-900">No boards created yet</h2>
+          <p className="text-sm mb-8 max-w-md font-medium text-slate-500 leading-relaxed">
+            Create your first Kanban board to start organizing tasks, managing projects, and collaborating with your team.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="btn btn-primary"
+            className="btn btn-primary shadow-md"
           >
             <Plus className="w-4 h-4" />
             Create your first board
           </button>
         </div>
       ) : (
-        <div className="space-y-12">
-          {/* Owned boards */}
+        <div className="space-y-14">
+          {/* Owned Boards Section */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-bold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                <Star className="w-3.5 h-3.5" style={{ color: 'var(--warning-400)' }} />
-                My Boards
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-xl bg-amber-50 border border-amber-200/70 text-amber-600 shadow-xs">
+                  <Star className="w-4 h-4" />
+                </div>
+                <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700">
+                  My Boards <span className="text-slate-400 font-semibold ml-2">({ownedBoards.length})</span>
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -192,14 +198,19 @@ export default function BoardsPage() {
             </section>
           )}
 
-          {/* Shared boards */}
+          {/* Shared Boards Section */}
           {sharedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
-                <Users className="w-3.5 h-3.5" style={{ color: 'var(--accent-400)' }} />
-                Shared with me
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 stagger">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-xl bg-indigo-50 border border-indigo-200/70 text-indigo-600 shadow-xs">
+                  <Users className="w-4 h-4" />
+                </div>
+                <h2 className="text-sm font-extrabold uppercase tracking-widest text-slate-700">
+                  Shared with me <span className="text-slate-400 font-semibold ml-2">({sharedBoards.length})</span>
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -213,22 +224,29 @@ export default function BoardsPage() {
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div
-            className="modal-card p-6 sm:p-8"
+            className="modal-card p-6 sm:p-8 max-w-lg w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-6">
-              <h2 className="text-xl font-bold">Create New Board</h2>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-                Name your board and start organizing your work.
-              </p>
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Create New Board</h2>
+                <p className="text-xs mt-1.5 font-medium text-slate-500">
+                  Name your board to start organizing tasks.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="btn-icon rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            <form onSubmit={handleCreateBoard} className="space-y-5">
-              <div>
+            <form onSubmit={handleCreateBoard} className="space-y-6">
+              <div className="form-field">
                 <label
                   htmlFor="new-board-name"
-                  className="block text-xs font-semibold uppercase tracking-wider mb-2"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="form-label"
                 >
                   Board Name
                 </label>
@@ -257,7 +275,7 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="btn btn-primary flex-1"
+                  className="btn btn-primary flex-1 shadow-md"
                 >
                   {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
@@ -273,87 +291,75 @@ export default function BoardsPage() {
 
 function BoardCard({ board }: { board: BoardSummary }) {
   const role = roleConfig[board.myRole] ?? roleConfig['VIEWER'];
-  const createdDate = new Date(board.createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
 
   return (
     <Link
       href={`/boards/${board.id}`}
       className="group block rounded-2xl transition-all duration-200 relative overflow-hidden animate-fade-in"
       style={{
-        background: 'var(--bg-elevated)',
+        background: '#ffffff',
         border: '1px solid var(--border-default)',
-        padding: '22px 22px 18px',
-        minHeight: '160px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        padding: '24px',
+        minHeight: '180px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
       onMouseOver={(e) => {
-        e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)';
-        e.currentTarget.style.boxShadow = '0 4px 24px rgba(99,102,241,0.12)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.45)';
+        e.currentTarget.style.boxShadow = '0 12px 32px -4px rgba(99, 102, 241, 0.14)';
+        e.currentTarget.style.transform = 'translateY(-3px)';
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
         e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
-      {/* Gradient top strip */}
+      {/* Top Accent Gradient Border */}
       <div
-        className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-0 left-0 right-0 h-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
         style={{ background: 'linear-gradient(90deg, var(--brand-500), var(--accent-500))' }}
       />
 
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <h3
-          className="text-base font-bold truncate pr-2 transition-colors"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          {board.name}
-        </h3>
-        <span className={`badge ${role.class} flex-shrink-0`}>
-          {role.icon} {role.label}
-        </span>
+      {/* Card Header & Owner */}
+      <div>
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <h3
+            className="text-lg font-bold tracking-tight leading-snug truncate transition-colors group-hover:text-indigo-600"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {board.name}
+          </h3>
+          <span className={`badge ${role.class} flex-shrink-0 px-2.5 py-1 text-[11px]`}>
+            {role.icon} {role.label}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mt-2 mb-6">
+          <UserCheck className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+          <span>Owner:</span>
+          <span className="text-slate-800 font-bold ml-0.5">{board.owner?.name ?? 'Unknown'}</span>
+        </div>
       </div>
 
-      <p className="text-xs truncate" style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
-        by {board.owner?.name}
-      </p>
+      {/* Card Footer Divider & Stats */}
+      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-500 mt-auto">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5">
+            <Layout className="w-4 h-4 text-indigo-500 flex-shrink-0" />
+            {board._count?.columns ?? 0} {board._count?.columns === 1 ? 'column' : 'columns'}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Users className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+            {board.members?.length ?? 1} {board.members?.length === 1 ? 'member' : 'members'}
+          </span>
+        </div>
 
-      <div
-        className="flex items-center justify-between text-xs"
-        style={{
-          borderTop: '1px solid var(--border-subtle)',
-          color: 'var(--text-muted)',
-          paddingTop: '14px',
-          marginTop: 'auto',
-        }}
-      >
-        <span className="flex items-center gap-1.5">
-          <Layout className="w-3.5 h-3.5" />
-          {board._count?.columns ?? 0} columns
+        <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-indigo-600">
+          Open <ChevronRight className="w-4 h-4" />
         </span>
-        <span className="flex items-center gap-1.5">
-          <Users className="w-3.5 h-3.5" />
-          {board.members?.length ?? 1} members
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Clock className="w-3.5 h-3.5" />
-          {createdDate}
-        </span>
-      </div>
-
-      <div
-        className="mt-3 flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
-        style={{ color: 'var(--brand-400)' }}
-      >
-        <span>Open board</span>
-        <ChevronRight className="w-3.5 h-3.5" />
       </div>
     </Link>
   );

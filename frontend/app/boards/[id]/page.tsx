@@ -135,15 +135,15 @@ export default function BoardDetailPage() {
   /* ── Loading state ─────────────────────────────────── */
   if (isAuthLoading || (isLoading && !board)) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-4">
           <div
             style={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)' }}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse-brand"
+            className="w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse-brand shadow-md"
           >
             <Layers className="w-6 h-6 text-white animate-spin-slow" />
           </div>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Loading board...</p>
+          <p className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Loading board...</p>
         </div>
       </div>
     );
@@ -152,12 +152,13 @@ export default function BoardDetailPage() {
   /* ── Error state ───────────────────────────────────── */
   if (error || !board) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-4 min-h-[60vh]">
         <div
           className="rounded-2xl p-8 max-w-sm w-full text-center animate-fade-in"
           style={{
-            background: 'var(--bg-elevated)',
+            background: '#ffffff',
             border: '1px solid var(--border-default)',
+            boxShadow: 'var(--shadow-md)',
           }}
         >
           <div
@@ -167,10 +168,10 @@ export default function BoardDetailPage() {
             <AlertCircle className="w-7 h-7" style={{ color: 'var(--danger-400)' }} />
           </div>
           <h2 className="text-xl font-bold mb-2">Access Denied</h2>
-          <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mb-6 font-medium" style={{ color: 'var(--text-secondary)' }}>
             {error || 'This board does not exist or you do not have permission to view it.'}
           </p>
-          <Link href="/boards" className="btn btn-primary">
+          <Link href="/boards" className="btn btn-primary shadow-sm">
             <ArrowLeft className="w-4 h-4" />
             Back to Boards
           </Link>
@@ -189,10 +190,11 @@ export default function BoardDetailPage() {
       <div
         className="flex-shrink-0 flex flex-col sm:flex-row sm:items-center gap-3 px-4 sm:px-6 py-3"
         style={{
-          background: 'rgba(13,17,23,0.80)',
-          borderBottom: '1px solid var(--border-subtle)',
+          background: 'rgba(255, 255, 255, 0.88)',
+          borderBottom: '1px solid var(--border-default)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
         }}
       >
         {/* Left: Back + Title */}
@@ -228,29 +230,20 @@ export default function BoardDetailPage() {
               <button
                 onClick={handleSaveBoardName}
                 className="btn-icon flex-shrink-0"
-                style={{ color: 'var(--accent-400)' }}
+                style={{ color: 'var(--accent-500)' }}
               >
                 <Check className="w-4 h-4" />
               </button>
             </div>
           ) : (
             <div className="flex items-center gap-2 min-w-0">
-              <h1 className="text-base font-bold truncate">{board.name}</h1>
+              <h1 className="text-base font-extrabold truncate" style={{ color: 'var(--text-primary)' }}>{board.name}</h1>
               {canEdit && (
                 <button
                   onClick={() => setIsEditingName(true)}
-                  className="btn-icon rounded-md flex-shrink-0 opacity-0 hover:opacity-100 group-hover:opacity-100"
+                  className="btn-icon rounded-md flex-shrink-0 opacity-60 hover:opacity-100"
                   title="Rename board"
                   id="rename-board-btn"
-                  style={{ opacity: 0.6 }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.opacity = '1';
-                    e.currentTarget.style.color = 'var(--brand-400)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.opacity = '0.6';
-                    e.currentTarget.style.color = 'var(--text-muted)';
-                  }}
                 >
                   <Edit2 className="w-3.5 h-3.5" />
                 </button>
@@ -269,13 +262,13 @@ export default function BoardDetailPage() {
           <button
             id="share-board-btn"
             onClick={() => setIsShareModalOpen(true)}
-            className="btn btn-ghost text-sm"
+            className="btn btn-ghost text-sm border border-[var(--border-default)] shadow-xs"
           >
-            <Users className="w-4 h-4" style={{ color: 'var(--brand-400)' }} />
+            <Users className="w-4 h-4" style={{ color: 'var(--brand-600)' }} />
             <span className="hidden sm:inline">Share</span>
             <span
               className="px-1.5 py-0.5 rounded-full text-xs font-bold"
-              style={{ background: 'var(--bg-overlay)', color: 'var(--text-muted)' }}
+              style={{ background: 'rgba(99, 102, 241, 0.1)', color: 'var(--brand-600)' }}
             >
               {board.members.length}
             </span>
@@ -319,7 +312,7 @@ export default function BoardDetailPage() {
                 <button
                   id="add-column-btn"
                   onClick={() => setIsAddingColumn(true)}
-                  className="btn btn-primary text-sm"
+                  className="btn btn-primary text-sm shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
                   <span className="hidden sm:inline">Add Column</span>
@@ -345,15 +338,15 @@ export default function BoardDetailPage() {
                   <div
                     className="absolute right-0 top-full mt-2 z-40 w-44 rounded-xl overflow-hidden animate-fade-in-scale"
                     style={{
-                      background: 'var(--bg-elevated)',
-                      border: '1px solid var(--border-strong)',
+                      background: '#ffffff',
+                      border: '1px solid var(--border-default)',
                       boxShadow: 'var(--shadow-lg)',
                     }}
                   >
                     <div className="p-2">
                       <button
                         onClick={() => { setMoreMenuOpen(false); handleDeleteBoard(); }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer"
                         style={{ color: 'var(--danger-400)' }}
                         onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(239,68,68,0.08)')}
                         onMouseOut={(e) => (e.currentTarget.style.background = 'transparent')}
