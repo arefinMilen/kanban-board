@@ -488,16 +488,86 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1.25rem;
 }
 
-/* ── Generic card ── */
-.card {
-  background: var(--bg-surface);
+/* ═══════════════════════════════════════════════════
+   LAYOUT & CONTAINER RESPONSIVE UTILITIES
+═══════════════════════════════════════════════════ */
+.workspace-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+}
+
+@media (max-width: 640px) {
+  .workspace-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+.hero-banner-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 36px 40px !important;
+  margin-bottom: 36px !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+  box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03);
 }
-.card:hover {
-  border-color: rgba(99,102,241,0.35);
-  box-shadow: 0 4px 20px rgba(15,23,42,0.10);
+
+@media (max-width: 640px) {
+  .hero-banner-card {
+    padding: 24px 20px !important;
+    margin-bottom: 24px !important;
+  }
 }
+
+.search-bar-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin-bottom: 32px !important;
+}
+
+.search-bar-input {
+  width: 100%;
+  padding-left: 48px !important;
+  padding-right: 36px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-default);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.18s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.search-bar-input:focus {
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
+}
+
+.search-bar-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+  width: 18px;
+  height: 18px;
+}
+
+/* Hide mobile-only hamburger on desktop */
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+

@@ -135,17 +135,10 @@ export default function BoardsPage() {
   ).size;
 
   return (
-    <div className="flex-1 max-w-7xl w-full mx-auto px-6 sm:px-10 lg:px-12 py-8 sm:py-12">
+    <div className="flex-1 workspace-container py-8 sm:py-12">
       
       {/* ── Hero Welcome Banner ── */}
-      <div
-        className="relative overflow-hidden rounded-[28px] p-8 sm:p-10 lg:p-12 mb-12 transition-all duration-300"
-        style={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-          border: '1px solid var(--border-default)',
-          boxShadow: '0 10px 40px -10px rgba(99, 102, 241, 0.10), 0 2px 8px rgba(0, 0, 0, 0.03)',
-        }}
-      >
+      <div className="hero-banner-card">
         {/* Ambient Radial Mesh */}
         <div
           aria-hidden="true"
@@ -201,17 +194,17 @@ export default function BoardsPage() {
         </div>
       </div>
 
-      {/* ── Search & Filter Controls Card ── */}
+      {/* ── Search & Filter Controls ── */}
       {boards.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-12 p-4 sm:p-5 rounded-2xl bg-white/80 border border-slate-200/80 shadow-xs backdrop-blur-md">
-          <div className="relative flex-1 max-w-md">
-            <Search className="w-4.5 h-4.5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-10">
+          <div className="search-bar-wrapper">
+            <Search className="search-bar-icon" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search boards by title..."
-              className="input pl-11 pr-10 py-3 text-sm rounded-xl w-full bg-slate-50/60 border-slate-200 focus:bg-white transition-all"
+              className="search-bar-input"
             />
             {searchQuery && (
               <button
@@ -223,7 +216,7 @@ export default function BoardsPage() {
             )}
           </div>
 
-          <div className="text-xs font-bold text-slate-500 self-end sm:self-auto px-2">
+          <div className="text-xs font-bold text-slate-500 self-end sm:self-auto pb-2 sm:pb-8">
             Showing <span className="text-slate-900 font-extrabold">{filteredBoards.length}</span> of {boards.length} total boards
           </div>
         </div>

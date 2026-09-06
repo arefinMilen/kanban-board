@@ -49,7 +49,7 @@ export function Navbar() {
         }}
         className="sticky top-0 z-40"
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 h-16 flex items-center justify-between gap-4">
+        <div className="workspace-container h-16 flex items-center justify-between gap-4">
           {/* Logo */}
           <Link
             href="/boards"
@@ -181,7 +181,7 @@ export function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              className="sm:hidden btn-icon"
+              className="mobile-menu-btn btn-icon md:hidden"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open mobile menu"
             >
