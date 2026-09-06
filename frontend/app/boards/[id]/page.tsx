@@ -83,8 +83,17 @@ export default function BoardDetailPage() {
     }
   }
 
-  const currentMember = board?.members.find((m) => m.user.id === user?.id);
-  const myRole = currentMember?.role || (board?.ownerId === user?.id ? 'OWNER' : 'VIEWER');
+  const isBoardOwner =
+    Boolean(user?.id && (board?.ownerId === user.id || board?.owner?.id === user.id)) ||
+    Boolean(user?.email && board?.owner?.email && board.owner.email.toLowerCase() === user.email.toLowerCase());
+
+  const currentMember = board?.members.find(
+    (m) =>
+      (user?.id && (m.user?.id === user.id || (m as any).userId === user.id)) ||
+      (user?.email && m.user?.email && m.user.email.toLowerCase() === user.email.toLowerCase())
+  );
+
+  const myRole = isBoardOwner ? 'OWNER' : (currentMember?.role || 'VIEWER');
   const isOwner = myRole === 'OWNER';
   const canEdit = myRole === 'OWNER' || myRole === 'EDITOR';
 
