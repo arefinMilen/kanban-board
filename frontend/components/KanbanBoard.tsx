@@ -125,8 +125,8 @@ export function KanbanBoard({ initialColumns, canEdit, onRefresh }: KanbanBoardP
       >
         {/* Board Canvas — horizontally scrollable */}
         <div
-          className="flex-1 flex overflow-x-auto min-h-0 items-start scroll-snap-x hide-scrollbar"
-          style={{ gap: '18px', padding: '20px 24px 28px' }}
+          className="flex-1 flex overflow-x-auto min-h-0 items-start scroll-snap-x hide-scrollbar workspace-container py-8 sm:py-10"
+          style={{ gap: '24px' }}
         >
           {columns.map((col) => (
             <KanbanColumn
