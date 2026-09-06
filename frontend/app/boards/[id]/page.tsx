@@ -188,9 +188,9 @@ export default function BoardDetailPage() {
     >
       {/* Board Top Bar */}
       <div
-        className="flex-shrink-0 bg-white/90 border-b border-slate-200/80 backdrop-blur-md shadow-xs py-4 sm:py-5"
+        className="flex-shrink-0 bg-white/90 border-b border-slate-200/80 backdrop-blur-md shadow-xs"
       >
-        <div className="workspace-container flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="workspace-container min-h-16 py-3 sm:py-0 sm:h-16 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Left: Back Arrow + Board Title + Edit Icon + Role Badge */}
           <div className="flex items-center gap-4 flex-1 min-w-0">
             <Link
