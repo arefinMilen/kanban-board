@@ -379,12 +379,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .modal-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
+  background: #ffffff;
+  border: 1px solid var(--border-default);
+  border-radius: 28px !important;
+  box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.22), 0 8px 24px rgba(0, 0, 0, 0.06);
   width: 100%;
-  max-width: 460px;
+  max-width: 500px;
+  padding: 32px 36px !important;
   animation: fadeInScale 0.22s ease both;
 }
 

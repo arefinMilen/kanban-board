@@ -343,29 +343,32 @@ export default function BoardsPage() {
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div
-            className="modal-card p-6 sm:p-8 max-w-lg w-full rounded-3xl"
+            className="modal-card"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between gap-4 pb-5 border-b border-slate-100 mb-6">
               <div>
-                <h2 className="text-xl font-extrabold text-slate-900">Create New Board</h2>
-                <p className="text-xs mt-1.5 font-medium text-slate-500">
-                  Name your board to start organizing tasks.
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create New Board</h2>
+                <p className="text-sm font-medium text-slate-500 mt-1">
+                  Name your board to start organizing tasks and workflows.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="btn-icon rounded-xl"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer -mr-1 -mt-1"
+                aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Modal Body / Form */}
             <form onSubmit={handleCreateBoard} className="space-y-6">
-              <div className="form-field">
+              <div>
                 <label
                   htmlFor="new-board-name"
-                  className="form-label"
+                  className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-2.5"
                 >
                   Board Name
                 </label>
@@ -377,16 +380,17 @@ export default function BoardsPage() {
                   value={newBoardName}
                   onChange={(e) => setNewBoardName(e.target.value)}
                   placeholder="e.g. Engineering Sprint Q3"
-                  className="input"
+                  className="input px-4 py-3.5 text-base rounded-2xl border-slate-200 shadow-xs focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 transition-all"
                   maxLength={60}
                 />
               </div>
 
-              <div className="flex gap-3 pt-2">
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3.5 pt-4">
                 <button
                   type="button"
                   onClick={() => { setIsModalOpen(false); setNewBoardName(''); }}
-                  className="btn btn-ghost flex-1 rounded-xl"
+                  className="btn btn-ghost flex-1 py-3 px-5 text-sm font-bold rounded-2xl"
                 >
                   Cancel
                 </button>
@@ -394,7 +398,7 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="btn btn-primary flex-1 shadow-md rounded-xl"
+                  className="btn btn-primary flex-1 py-3 px-5 text-sm font-extrabold rounded-2xl shadow-lg shadow-indigo-500/25"
                 >
                   {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
