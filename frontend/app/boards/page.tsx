@@ -342,26 +342,26 @@ export default function BoardsPage() {
       {/* ── Create Board Modal ── */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg bg-white rounded-3xl p-8 sm:p-9 shadow-2xl border border-slate-100 animate-fade-in-scale"
+            className="w-full max-w-lg bg-white rounded-3xl p-7 sm:p-9 shadow-2xl border border-slate-100 animate-fade-in-scale flex flex-col gap-7"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 pb-5 mb-7 border-b border-slate-200">
-              <div className="flex-1">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+            <div className="flex items-start justify-between gap-4 pb-5 border-b border-slate-200">
+              <div className="flex flex-col gap-1.5 flex-1">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                   Create New Board
                 </h2>
-                <p className="text-sm font-medium text-slate-500 leading-relaxed">
+                <p className="text-sm font-medium text-slate-500 leading-normal">
                   Name your board to start organizing tasks and workflows.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0 -mr-2 -mt-2"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0 -mr-1 -mt-1"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -369,8 +369,8 @@ export default function BoardsPage() {
             </div>
 
             {/* Modal Body / Form */}
-            <form onSubmit={handleCreateBoard}>
-              <div className="mb-8 space-y-3">
+            <form onSubmit={handleCreateBoard} className="flex flex-col gap-7">
+              <div className="flex flex-col gap-3">
                 <label
                   htmlFor="new-board-name"
                   className="block text-xs font-extrabold uppercase tracking-wider text-slate-600"
@@ -395,7 +395,7 @@ export default function BoardsPage() {
                 <button
                   type="button"
                   onClick={() => { setIsModalOpen(false); setNewBoardName(''); }}
-                  className="flex-1 py-3.5 px-6 text-sm font-bold rounded-2xl border border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 transition-all"
+                  className="flex-1 py-3.5 px-6 text-sm font-bold rounded-2xl border border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -403,7 +403,7 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="flex-1 py-3.5 px-6 text-sm font-extrabold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 py-3.5 px-6 text-sm font-extrabold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {isCreating && <Loader2 className="w-4.5 h-4.5 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
