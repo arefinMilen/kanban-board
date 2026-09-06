@@ -23,7 +23,7 @@ export default function RegisterPage() {
     setError(null);
     setIsSubmitting(true);
     try {
-      await register(name, email, password);
+      await register(email, password, name);
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
