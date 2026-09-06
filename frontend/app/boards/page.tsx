@@ -345,18 +345,45 @@ export default function BoardsPage() {
           <div
             className="modal-card"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#ffffff',
+              borderRadius: '24px',
+              padding: '36px 36px',
+              maxWidth: '500px',
+              width: '100%',
+              boxShadow: '0 25px 50px -12px rgba(15, 23, 42, 0.25)',
+            }}
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 pb-5 border-b border-slate-100 mb-6">
-              <div>
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create New Board</h2>
-                <p className="text-sm font-medium text-slate-500 mt-1">
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                gap: '16px',
+                paddingBottom: '20px',
+                marginBottom: '28px',
+                borderBottom: '1px solid #e2e8f0',
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <h2
+                  className="text-2xl font-extrabold text-slate-900 tracking-tight"
+                  style={{ marginBottom: '8px', lineHeight: '1.25' }}
+                >
+                  Create New Board
+                </h2>
+                <p
+                  className="text-sm font-medium text-slate-500"
+                  style={{ marginTop: '0px', marginBottom: '0px', lineHeight: '1.5' }}
+                >
                   Name your board to start organizing tasks and workflows.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer -mr-1 -mt-1"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0"
+                style={{ marginTop: '-4px', marginRight: '-4px' }}
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -364,11 +391,19 @@ export default function BoardsPage() {
             </div>
 
             {/* Modal Body / Form */}
-            <form onSubmit={handleCreateBoard} className="space-y-6">
-              <div>
+            <form onSubmit={handleCreateBoard}>
+              <div style={{ marginBottom: '32px' }}>
                 <label
                   htmlFor="new-board-name"
-                  className="block text-xs font-extrabold uppercase tracking-wider text-slate-600 mb-2.5"
+                  style={{
+                    display: 'block',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: '#475569',
+                    marginBottom: '12px',
+                  }}
                 >
                   Board Name
                 </label>
@@ -380,17 +415,45 @@ export default function BoardsPage() {
                   value={newBoardName}
                   onChange={(e) => setNewBoardName(e.target.value)}
                   placeholder="e.g. Engineering Sprint Q3"
-                  className="input px-4 py-3.5 text-base rounded-2xl border-slate-200 shadow-xs focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15 transition-all"
+                  style={{
+                    width: '100%',
+                    padding: '14px 18px',
+                    fontSize: '15px',
+                    borderRadius: '16px',
+                    border: '1.5px solid #cbd5e1',
+                    background: '#ffffff',
+                    outline: 'none',
+                    marginBottom: '0px',
+                    boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
+                  }}
                   maxLength={60}
                 />
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-3.5 pt-4">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  marginTop: '32px',
+                  paddingTop: '20px',
+                  borderTop: '1px solid #f1f5f9',
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => { setIsModalOpen(false); setNewBoardName(''); }}
-                  className="btn btn-ghost flex-1 py-3 px-5 text-sm font-bold rounded-2xl"
+                  className="btn btn-ghost flex-1"
+                  style={{
+                    padding: '14px 20px',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    borderRadius: '16px',
+                    border: '1px solid #cbd5e1',
+                    background: '#f8fafc',
+                    color: '#334155',
+                  }}
                 >
                   Cancel
                 </button>
@@ -398,9 +461,18 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="btn btn-primary flex-1 py-3 px-5 text-sm font-extrabold rounded-2xl shadow-lg shadow-indigo-500/25"
+                  className="btn btn-primary flex-1 flex items-center justify-center gap-2"
+                  style={{
+                    padding: '14px 20px',
+                    fontSize: '14px',
+                    fontWeight: 800,
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    color: '#ffffff',
+                    boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)',
+                  }}
                 >
-                  {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {isCreating && <Loader2 className="w-4.5 h-4.5 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
                 </button>
               </div>
