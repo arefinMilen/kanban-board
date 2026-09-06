@@ -87,23 +87,84 @@ export function KanbanColumn({
     } finally {
       setIsSubmittingTask(false);
     }
+  // Dynamic glassy theme mapping based on column title
+  const normalizedTitle = column.title.toLowerCase().trim();
+
+  let colTheme = {
+    background: 'rgba(255, 255, 255, 0.85)',
+    border: '1px solid var(--border-default)',
+    headerBorder: '#f1f5f9',
+    badgeBg: '#f1f5f9',
+    badgeText: '#475569',
+    badgeBorder: '#e2e8f0',
+    titleColor: '#0f172a',
+    addBtnText: '#4f46e5',
+    addBtnBg: 'rgba(99, 102, 241, 0.04)',
+    addBtnBorder: 'rgba(99, 102, 241, 0.3)',
+    addBtnHoverBg: 'rgba(99, 102, 241, 0.09)',
+  };
+
+  if (normalizedTitle.includes('todo') || normalizedTitle.includes('to do') || normalizedTitle.includes('backlog')) {
+    colTheme = {
+      background: 'linear-gradient(180deg, rgba(254, 242, 242, 0.82) 0%, rgba(255, 255, 255, 0.92) 100%)',
+      border: '1.5px solid rgba(248, 113, 113, 0.28)',
+      headerBorder: 'rgba(248, 113, 113, 0.16)',
+      badgeBg: 'rgba(254, 226, 226, 0.85)',
+      badgeText: '#991b1b',
+      badgeBorder: 'rgba(248, 113, 113, 0.32)',
+      titleColor: '#881337',
+      addBtnText: '#e11d48',
+      addBtnBg: 'rgba(244, 63, 94, 0.05)',
+      addBtnBorder: 'rgba(244, 63, 94, 0.28)',
+      addBtnHoverBg: 'rgba(244, 63, 94, 0.10)',
+    };
+  } else if (normalizedTitle.includes('progress') || normalizedTitle.includes('doing') || normalizedTitle.includes('in-progress')) {
+    colTheme = {
+      background: 'linear-gradient(180deg, rgba(254, 252, 232, 0.82) 0%, rgba(255, 255, 255, 0.92) 100%)',
+      border: '1.5px solid rgba(251, 191, 36, 0.32)',
+      headerBorder: 'rgba(251, 191, 36, 0.18)',
+      badgeBg: 'rgba(254, 243, 199, 0.85)',
+      badgeText: '#92400e',
+      badgeBorder: 'rgba(251, 191, 36, 0.35)',
+      titleColor: '#78350f',
+      addBtnText: '#d97706',
+      addBtnBg: 'rgba(245, 158, 11, 0.05)',
+      addBtnBorder: 'rgba(245, 158, 11, 0.30)',
+      addBtnHoverBg: 'rgba(245, 158, 11, 0.10)',
+    };
+  } else if (normalizedTitle.includes('done') || normalizedTitle.includes('complete') || normalizedTitle.includes('finished')) {
+    colTheme = {
+      background: 'linear-gradient(180deg, rgba(236, 253, 245, 0.82) 0%, rgba(255, 255, 255, 0.92) 100%)',
+      border: '1.5px solid rgba(52, 211, 153, 0.32)',
+      headerBorder: 'rgba(52, 211, 153, 0.18)',
+      badgeBg: 'rgba(209, 250, 229, 0.85)',
+      badgeText: '#065f46',
+      badgeBorder: 'rgba(52, 211, 153, 0.35)',
+      titleColor: '#064e3b',
+      addBtnText: '#059669',
+      addBtnBg: 'rgba(16, 185, 129, 0.05)',
+      addBtnBorder: 'rgba(16, 185, 129, 0.30)',
+      addBtnHoverBg: 'rgba(16, 185, 129, 0.10)',
+    };
   }
 
   return (
     <div
       ref={setNodeRef}
-      className="flex-shrink-0 flex flex-col scroll-snap-start"
+      className="flex-shrink-0 flex flex-col scroll-snap-start backdrop-blur-md"
       style={{
         width: '330px',
         maxHeight: '100%',
-        background: isOver ? 'rgba(99, 102, 241, 0.05)' : '#ffffff',
+        background: isOver ? 'rgba(99, 102, 241, 0.08)' : colTheme.background,
         border: isOver
           ? '1.5px solid rgba(99, 102, 241, 0.6)'
-          : '1px solid var(--border-default)',
+          : colTheme.border,
         borderRadius: '24px',
         boxShadow: isOver
           ? '0 0 0 4px rgba(99, 102, 241, 0.14), 0 8px 24px rgba(15, 23, 42, 0.08)'
           : '0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
         transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
@@ -112,7 +173,7 @@ export function KanbanColumn({
         className="flex items-center justify-between flex-shrink-0"
         style={{
           padding: '18px 20px 14px',
-          borderBottom: '1px solid #f1f5f9',
+          borderBottom: `1px solid ${colTheme.headerBorder}`,
         }}
       >
         {isEditingTitle ? (
@@ -144,16 +205,16 @@ export function KanbanColumn({
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <h3
               className="text-base font-extrabold truncate"
-              style={{ color: '#0f172a', letterSpacing: '-0.01em' }}
+              style={{ color: colTheme.titleColor, letterSpacing: '-0.01em' }}
             >
               {column.title}
             </h3>
             <span
               className="flex-shrink-0 px-2.5 py-0.5 text-xs font-extrabold rounded-full"
               style={{
-                background: '#f1f5f9',
-                border: '1px solid #e2e8f0',
-                color: '#475569',
+                background: colTheme.badgeBg,
+                border: `1px solid ${colTheme.badgeBorder}`,
+                color: colTheme.badgeText,
                 minWidth: '24px',
                 textAlign: 'center',
               }}
@@ -296,21 +357,17 @@ export function KanbanColumn({
                 borderRadius: '14px',
                 fontSize: '0.825rem',
                 fontWeight: 700,
-                color: '#4f46e5',
-                border: '1.5px dashed rgba(99, 102, 241, 0.3)',
-                background: 'rgba(99, 102, 241, 0.04)',
+                color: colTheme.addBtnText,
+                border: `1.5px dashed ${colTheme.addBtnBorder}`,
+                background: colTheme.addBtnBg,
                 cursor: 'pointer',
                 transition: 'all 0.18s ease',
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.color = '#4338ca';
-                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.55)';
-                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.09)';
+                e.currentTarget.style.background = colTheme.addBtnHoverBg;
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.color = '#4f46e5';
-                e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
-                e.currentTarget.style.background = 'rgba(99, 102, 241, 0.04)';
+                e.currentTarget.style.background = colTheme.addBtnBg;
               }}
             >
               <Plus className="w-4 h-4 stroke-[2.5]" />
