@@ -87,6 +87,8 @@ export function KanbanColumn({
     } finally {
       setIsSubmittingTask(false);
     }
+  }
+
   // Dynamic glassy theme mapping based on column title
   const normalizedTitle = column.title.toLowerCase().trim();
 
