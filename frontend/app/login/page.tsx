@@ -3,7 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { LayoutDashboard, Lock, Mail, Loader2, Eye, EyeOff, Sparkles } from 'lucide-react';
+import {
+  Layers,
+  Lock,
+  Mail,
+  Loader2,
+  Eye,
+  EyeOff,
+  Sparkles,
+  ArrowRight,
+  Zap,
+} from 'lucide-react';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -17,11 +27,10 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
-
     try {
       await login(email, password);
     } catch (err: any) {
-      setError(err.message || 'Failed to login');
+      setError(err.message || 'Failed to login. Please check your credentials.');
     } finally {
       setIsSubmitting(false);
     }
@@ -33,123 +42,235 @@ export default function LoginPage() {
     setError(null);
   };
 
+  const demoAccounts = [
+    {
+      label: 'Owner',
+      emoji: '👑',
+      email: 'owner@example.com',
+      pass: 'Password123!',
+      color: 'warning',
+    },
+    {
+      label: 'Editor',
+      emoji: '✏️',
+      email: 'editor@example.com',
+      pass: 'Password123!',
+      color: 'accent',
+    },
+    {
+      label: 'Viewer',
+      emoji: '👁️',
+      email: 'viewer@example.com',
+      pass: 'Password123!',
+      color: 'muted',
+    },
+  ];
+
   return (
-    <div className="flex-1 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-xl">
-        <div className="flex flex-col items-center mb-8 text-center">
-          <div className="p-3 bg-indigo-500/10 rounded-full border border-indigo-500/20 mb-3">
-            <LayoutDashboard className="w-8 h-8 text-indigo-400" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">Welcome Back</h1>
-          <p className="text-sm text-slate-400 mt-1">Sign in to your Kanban workspace</p>
-        </div>
+    <div
+      className="flex-1 flex items-center justify-center px-4 py-12"
+      style={{ minHeight: 'calc(100vh - 3.5rem)' }}
+    >
+      {/* Background glow effects */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: '-20%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '600px',
+          height: '400px',
+          background:
+            'radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
 
-        {error && (
-          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-sm">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                <Mail className="w-5 h-5" />
-              </div>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="owner@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                <Lock className="w-5 h-5" />
-              </div>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-md hover:shadow-indigo-500/25 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <div
+            style={{
+              background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+              boxShadow: '0 0 24px rgba(99,102,241,0.5)',
+            }}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 animate-pulse-brand"
           >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Signing in...</span>
-              </>
-            ) : (
-              <span>Sign In</span>
-            )}
-          </button>
-        </form>
-
-        {/* Quick Demo Test Accounts */}
-        <div className="mt-6 pt-5 border-t border-slate-800">
-          <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Quick Test Accounts (Click to Fill)</span>
+            <Layers className="w-7 h-7 text-white" strokeWidth={2} />
           </div>
+          <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
+          <p className="text-sm mt-1.5" style={{ color: 'var(--text-secondary)' }}>
+            Sign in to your Kanban Pro workspace
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-2 justify-center">
-            <button
-              type="button"
-              onClick={() => handleQuickFill('owner@example.com', 'Password123!')}
-              className="px-3 py-1.5 text-xs font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 rounded-full hover:bg-indigo-500/25 hover:border-indigo-400 transition"
+        {/* Card */}
+        <div
+          className="rounded-2xl p-7 shadow-2xl"
+          style={{
+            background: 'rgba(22,27,34,0.75)',
+            border: '1px solid var(--border-default)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
+          {error && (
+            <div
+              className="mb-5 p-3.5 rounded-xl flex items-start gap-2.5 text-sm animate-fade-in"
+              style={{
+                background: 'rgba(239,68,68,0.1)',
+                border: '1px solid rgba(239,68,68,0.3)',
+                color: 'var(--danger-400)',
+              }}
             >
-              👑 Demo Owner
-            </button>
+              <span>⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="login-email"
+                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Email Address
+              </label>
+              <div className="relative">
+                <div
+                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="login-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="input input-icon-left"
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="login-password"
+                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Password
+              </label>
+              <div className="relative">
+                <div
+                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <Lock className="w-4 h-4" />
+                </div>
+                <input
+                  id="login-password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="input input-icon-left pr-11"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center btn-icon"
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
             <button
-              type="button"
-              onClick={() => handleQuickFill('editor@example.com', 'Password123!')}
-              className="px-3 py-1.5 text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-full hover:bg-emerald-500/25 hover:border-emerald-400 transition"
+              id="login-submit-btn"
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-primary w-full py-3 text-sm"
             >
-              ✏️ Demo Editor
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
-            <button
-              type="button"
-              onClick={() => handleQuickFill('viewer@example.com', 'Password123!')}
-              className="px-3 py-1.5 text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/30 rounded-full hover:bg-amber-500/25 hover:border-amber-400 transition"
+          </form>
+
+          {/* Demo Accounts */}
+          <div className="mt-6 pt-5" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+            <div
+              className="flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wider mb-3"
+              style={{ color: 'var(--text-muted)' }}
             >
-              👁️ Demo Viewer
-            </button>
+              <Zap className="w-3.5 h-3.5" style={{ color: 'var(--brand-400)' }} />
+              <span>Quick Test Login</span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              {demoAccounts.map((acc) => (
+                <button
+                  key={acc.label}
+                  type="button"
+                  id={`demo-${acc.label.toLowerCase()}`}
+                  onClick={() => handleQuickFill(acc.email, acc.pass)}
+                  className="flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all"
+                  style={{
+                    background: 'var(--bg-overlay)',
+                    border: '1px solid var(--border-default)',
+                    color: 'var(--text-secondary)',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--brand-500)';
+                    e.currentTarget.style.background = 'rgba(99,102,241,0.1)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-default)';
+                    e.currentTarget.style.background = 'var(--bg-overlay)';
+                    e.currentTarget.style.color = 'var(--text-secondary)';
+                  }}
+                >
+                  <span className="text-lg">{acc.emoji}</span>
+                  <span>{acc.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 text-center text-sm text-slate-400">
+        <p className="text-center text-sm mt-5" style={{ color: 'var(--text-muted)' }}>
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-indigo-400 hover:text-indigo-300 font-medium underline">
-            Register here
+          <Link
+            href="/register"
+            className="font-semibold transition-colors"
+            style={{ color: 'var(--brand-400)' }}
+            onMouseOver={(e) => (e.currentTarget.style.color = 'var(--brand-500)')}
+            onMouseOut={(e) => (e.currentTarget.style.color = 'var(--brand-400)')}
+          >
+            Create one free
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

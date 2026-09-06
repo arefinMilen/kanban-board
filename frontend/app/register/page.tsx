@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { LayoutDashboard, Lock, Mail, User, Loader2 } from 'lucide-react';
+import { Layers, Lock, Mail, User, Loader2, Eye, EyeOff, ArrowRight } from 'lucide-react';
 
 export default function RegisterPage() {
   const { register } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -17,114 +18,212 @@ export default function RegisterPage() {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
-
     try {
       await register(email, password, name);
     } catch (err: any) {
-      setError(err.message || 'Failed to register');
+      setError(err.message || 'Failed to create account');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl p-8 shadow-xl">
-        <div className="flex flex-col items-center mb-8 text-center">
-          <div className="p-3 bg-indigo-500/10 rounded-full border border-indigo-500/20 mb-3">
-            <LayoutDashboard className="w-8 h-8 text-indigo-400" />
+    <div
+      className="flex-1 flex items-center justify-center px-4 py-12"
+      style={{ minHeight: 'calc(100vh - 3.5rem)' }}
+    >
+      {/* Background glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: '-20%',
+          right: '10%',
+          width: '500px',
+          height: '400px',
+          background:
+            'radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <div
+            style={{
+              background: 'linear-gradient(135deg, #6366f1, #10b981)',
+              boxShadow: '0 0 24px rgba(16,185,129,0.4)',
+            }}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+          >
+            <Layers className="w-7 h-7 text-white" strokeWidth={2} />
           </div>
-          <h1 className="text-2xl font-bold text-white">Create Account</h1>
-          <p className="text-sm text-slate-400 mt-1">Get started with Mini Kanban</p>
+          <h1 className="text-2xl font-bold tracking-tight">Create your account</h1>
+          <p className="text-sm mt-1.5" style={{ color: 'var(--text-secondary)' }}>
+            Get started with Kanban Pro for free
+          </p>
         </div>
 
-        {error && (
-          <div className="mb-6 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-sm">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Full Name
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                <User className="w-5 h-5" />
-              </div>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Alice Owner"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
-              />
+        {/* Card */}
+        <div
+          className="rounded-2xl p-7 shadow-2xl"
+          style={{
+            background: 'rgba(22,27,34,0.75)',
+            border: '1px solid var(--border-default)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
+          {error && (
+            <div
+              className="mb-5 p-3.5 rounded-xl flex items-start gap-2.5 text-sm animate-fade-in"
+              style={{
+                background: 'rgba(239,68,68,0.1)',
+                border: '1px solid rgba(239,68,68,0.3)',
+                color: 'var(--danger-400)',
+              }}
+            >
+              <span>⚠️</span>
+              <span>{error}</span>
             </div>
-          </div>
+          )}
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                <Mail className="w-5 h-5" />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Name */}
+            <div>
+              <label
+                htmlFor="register-name"
+                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Full Name
+              </label>
+              <div className="relative">
+                <div
+                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <User className="w-4 h-4" />
+                </div>
+                <input
+                  id="register-name"
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Alice Smith"
+                  className="input input-icon-left"
+                  autoComplete="name"
+                />
               </div>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="alice@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
-              />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-                <Lock className="w-5 h-5" />
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="register-email"
+                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Email Address
+              </label>
+              <div className="relative">
+                <div
+                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <Mail className="w-4 h-4" />
+                </div>
+                <input
+                  id="register-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="alice@example.com"
+                  className="input input-icon-left"
+                  autoComplete="email"
+                />
               </div>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
-              />
             </div>
-          </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg shadow-md hover:shadow-indigo-500/25 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Creating account...</span>
-              </>
-            ) : (
-              <span>Create Account</span>
-            )}
-          </button>
-        </form>
+            {/* Password */}
+            <div>
+              <label
+                htmlFor="register-password"
+                className="block text-xs font-semibold mb-2 uppercase tracking-wider"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Password
+              </label>
+              <div className="relative">
+                <div
+                  className="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+                  style={{ color: 'var(--text-muted)' }}
+                >
+                  <Lock className="w-4 h-4" />
+                </div>
+                <input
+                  id="register-password"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Min. 6 characters"
+                  className="input input-icon-left pr-11"
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center btn-icon"
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              <p className="mt-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
+                Must be at least 6 characters with a number & special character.
+              </p>
+            </div>
 
-        <div className="mt-6 text-center text-sm text-slate-400">
+            <button
+              id="register-submit-btn"
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-primary w-full py-3 text-sm"
+              style={{
+                background: 'linear-gradient(135deg, #6366f1, #10b981)',
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Creating account...</span>
+                </>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-sm mt-5" style={{ color: 'var(--text-muted)' }}>
           Already have an account?{' '}
-          <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-medium underline">
+          <Link
+            href="/login"
+            className="font-semibold transition-colors"
+            style={{ color: 'var(--brand-400)' }}
+          >
             Sign in
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

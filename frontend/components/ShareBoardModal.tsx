@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchApi } from '@/lib/api';
-import { X, UserPlus, Trash2, Shield, Loader2, AlertCircle } from 'lucide-react';
+import { X, UserPlus, Trash2, Shield, Loader2, AlertCircle, Users } from 'lucide-react';
 
 interface Member {
   id: string;
@@ -22,6 +22,12 @@ interface ShareBoardModalProps {
   onMembersUpdated: () => void;
 }
 
+const roleConfig = {
+  OWNER:  { class: 'badge-owner',  icon: '👑' },
+  EDITOR: { class: 'badge-editor', icon: '✏️' },
+  VIEWER: { class: 'badge-viewer', icon: '👁️' },
+} as const;
+
 export function ShareBoardModal({
   boardId,
   members,
@@ -37,7 +43,6 @@ export function ShareBoardModal({
   async function handleAddMember(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
-
     setError(null);
     setIsSubmitting(true);
     try {
@@ -55,13 +60,10 @@ export function ShareBoardModal({
   }
 
   async function handleRemoveMember(userId: string) {
-    if (!confirm('Are you sure you want to remove this member?')) return;
-
+    if (!confirm('Remove this member from the board?')) return;
     setError(null);
     try {
-      await fetchApi(`/boards/${boardId}/members/${userId}`, {
-        method: 'DELETE',
-      });
+      await fetchApi(`/boards/${boardId}/members/${userId}`, { method: 'DELETE' });
       onMembersUpdated();
     } catch (err: any) {
       setError(err.message || 'Failed to remove member');
@@ -69,104 +71,182 @@ export function ShareBoardModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-lg w-full p-6 shadow-2xl relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white transition"
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+    >
+      <div
+        className="modal-card w-full max-w-lg"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-6 py-5 flex-shrink-0"
+          style={{ borderBottom: '1px solid var(--border-subtle)' }}
         >
-          <X className="w-5 h-5" />
-        </button>
-
-        <h2 className="text-xl font-bold text-white mb-1">Share Board</h2>
-        <p className="text-slate-400 text-sm mb-6">
-          Invite teammates or manage board member permissions.
-        </p>
-
-        {error && (
-          <div className="mb-4 p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg flex items-center gap-2 text-rose-400 text-sm">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {isOwner && (
-          <form onSubmit={handleAddMember} className="mb-6 p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-              Invite Member by Email
-            </label>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="colleague@example.com"
-                className="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value as any)}
-                className="px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="EDITOR">EDITOR</option>
-                <option value="VIEWER">VIEWER</option>
-                <option value="OWNER">OWNER</option>
-              </select>
-              <button
-                type="submit"
-                disabled={isSubmitting || !email.trim()}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition disabled:opacity-50 flex items-center gap-1.5 justify-center"
-              >
-                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
-                <span>Add</span>
-              </button>
+          <div className="flex items-center gap-3">
+            <div
+              className="w-9 h-9 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'rgba(99,102,241,0.1)',
+                border: '1px solid rgba(99,102,241,0.2)',
+              }}
+            >
+              <Users className="w-4.5 h-4.5" style={{ color: 'var(--brand-400)' }} />
             </div>
-          </form>
-        )}
-
-        <div>
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-            Current Members ({members.length})
-          </h3>
-          <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-            {members.map((m) => (
-              <div
-                key={m.id}
-                className="flex items-center justify-between p-3 bg-slate-800/40 border border-slate-800 rounded-lg"
-              >
-                <div>
-                  <p className="text-sm font-medium text-white">{m.user.name}</p>
-                  <p className="text-xs text-slate-400">{m.user.email}</p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
-                      m.role === 'OWNER'
-                        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                        : m.role === 'EDITOR'
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-slate-700 text-slate-300'
-                    }`}
-                  >
-                    <Shield className="w-3 h-3" />
-                    {m.role}
-                  </span>
-
-                  {isOwner && (
-                    <button
-                      onClick={() => handleRemoveMember(m.user.id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-400 rounded-md hover:bg-slate-800 transition"
-                      title="Remove Member"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+            <div>
+              <h2 className="text-base font-bold">Share Board</h2>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Manage board access &amp; permissions
+              </p>
+            </div>
           </div>
+          <button
+            onClick={onClose}
+            className="btn-icon rounded-lg"
+            aria-label="Close modal"
+            id="close-share-modal-btn"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Error */}
+          {error && (
+            <div
+              className="p-3.5 rounded-xl flex items-start gap-2.5 text-sm animate-fade-in"
+              style={{
+                background: 'rgba(239,68,68,0.08)',
+                border: '1px solid rgba(239,68,68,0.25)',
+                color: 'var(--danger-400)',
+              }}
+            >
+              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Add member form — owner only */}
+          {isOwner && (
+            <div>
+              <label
+                className="block text-xs font-bold uppercase tracking-wider mb-3"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Invite Member
+              </label>
+              <form onSubmit={handleAddMember} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    id="share-email-input"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="colleague@example.com"
+                    className="input text-sm flex-1"
+                  />
+                  <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value as any)}
+                    className="input text-sm"
+                    style={{ width: 'auto', flexShrink: 0 }}
+                    id="share-role-select"
+                  >
+                    <option value="EDITOR">Editor</option>
+                    <option value="VIEWER">Viewer</option>
+                    <option value="OWNER">Owner</option>
+                  </select>
+                </div>
+                <button
+                  id="invite-member-btn"
+                  type="submit"
+                  disabled={isSubmitting || !email.trim()}
+                  className="btn btn-primary w-full text-sm"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <UserPlus className="w-4 h-4" />
+                  )}
+                  {isSubmitting ? 'Sending invite...' : 'Send Invite'}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* Current members */}
+          <div>
+            <h3
+              className="text-xs font-bold uppercase tracking-wider mb-3"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Members · {members.length}
+            </h3>
+            <div className="space-y-2">
+              {members.map((m) => {
+                const rc = roleConfig[m.role] ?? roleConfig['VIEWER'];
+                return (
+                  <div
+                    key={m.id}
+                    className="flex items-center justify-between p-3 rounded-xl transition-colors"
+                    style={{ background: 'var(--bg-overlay)', border: '1px solid var(--border-subtle)' }}
+                  >
+                    {/* Avatar + info */}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                        style={{
+                          background: 'linear-gradient(135deg, var(--brand-500), var(--accent-500))',
+                        }}
+                      >
+                        {m.user.name?.charAt(0).toUpperCase() ?? '?'}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+                          {m.user.name}
+                        </p>
+                        <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>
+                          {m.user.email}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Role + actions */}
+                    <div className="flex items-center gap-2 flex-shrink-0 ml-3">
+                      <span className={`badge ${rc.class}`}>
+                        {rc.icon} {m.role}
+                      </span>
+                      {isOwner && m.role !== 'OWNER' && (
+                        <button
+                          onClick={() => handleRemoveMember(m.user.id)}
+                          className="btn-icon rounded-md"
+                          title="Remove member"
+                          onMouseOver={(e) => (e.currentTarget.style.color = 'var(--danger-400)')}
+                          onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div
+          className="px-6 py-4 flex-shrink-0"
+          style={{ borderTop: '1px solid var(--border-subtle)' }}
+        >
+          <button onClick={onClose} className="btn btn-ghost w-full text-sm">
+            Done
+          </button>
         </div>
       </div>
     </div>

@@ -33,14 +33,10 @@ export function KanbanColumn({
   onTaskUpdated,
   onTaskDeleted,
 }: KanbanColumnProps) {
-  const { setNodeRef, isOver } = useDroppable({
-    id: column.id,
-  });
+  const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [title, setTitle] = useState(column.title);
-
-  // Add task state
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDesc, setNewTaskDesc] = useState('');
@@ -61,16 +57,9 @@ export function KanbanColumn({
   }
 
   async function handleDeleteColumn() {
-    if (
-      !confirm(
-        `Are you sure you want to delete column "${column.title}" and all its tasks?`,
-      )
-    )
-      return;
+    if (!confirm(`Delete column "${column.title}" and all its tasks?`)) return;
     try {
-      await fetchApi(`/columns/${column.id}`, {
-        method: 'DELETE',
-      });
+      await fetchApi(`/columns/${column.id}`, { method: 'DELETE' });
       onColumnDeleted(column.id);
     } catch (err: any) {
       alert(err.message || 'Failed to delete column');
@@ -80,7 +69,6 @@ export function KanbanColumn({
   async function handleCreateTask(e: React.FormEvent) {
     e.preventDefault();
     if (!newTaskTitle.trim()) return;
-
     setIsSubmittingTask(true);
     try {
       await fetchApi(`/columns/${column.id}/tasks`, {
@@ -104,60 +92,86 @@ export function KanbanColumn({
   return (
     <div
       ref={setNodeRef}
-      className={`w-80 flex-shrink-0 bg-slate-900/90 border rounded-xl flex flex-col max-h-full transition-colors duration-150 ${
-        isOver
-          ? 'border-indigo-500 bg-indigo-500/5 ring-2 ring-indigo-500/20'
-          : 'border-slate-800/80'
-      }`}
+      className="flex-shrink-0 flex flex-col scroll-snap-start"
+      style={{
+        width: '300px',
+        maxHeight: '100%',
+        background: isOver ? 'rgba(99,102,241,0.05)' : 'var(--bg-surface)',
+        border: isOver
+          ? '1px solid rgba(99,102,241,0.5)'
+          : '1px solid var(--border-default)',
+        borderRadius: 'var(--radius-xl)',
+        boxShadow: isOver ? '0 0 0 3px rgba(99,102,241,0.12)' : 'none',
+        transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s',
+      }}
     >
       {/* Column Header */}
-      <div className="p-4 border-b border-slate-800/80 flex items-center justify-between">
+      <div
+        className="flex items-center justify-between px-4 py-3.5 flex-shrink-0"
+        style={{ borderBottom: '1px solid var(--border-subtle)' }}
+      >
         {isEditingTitle ? (
-          <div className="flex items-center gap-1 flex-1">
+          <div className="flex items-center gap-1.5 flex-1 min-w-0">
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="flex-1 px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveTitle();
+                if (e.key === 'Escape') setIsEditingTitle(false);
+              }}
+              className="input text-sm py-1.5 font-bold flex-1"
               autoFocus
             />
-            <button
-              onClick={() => setIsEditingTitle(false)}
-              className="p-1 text-slate-400 hover:text-white"
-            >
+            <button onClick={() => setIsEditingTitle(false)} className="btn-icon flex-shrink-0">
               <X className="w-4 h-4" />
             </button>
             <button
               onClick={handleSaveTitle}
-              className="p-1 text-emerald-400 hover:text-emerald-300"
+              className="btn-icon flex-shrink-0"
+              style={{ color: 'var(--accent-400)' }}
             >
               <Check className="w-4 h-4" />
             </button>
           </div>
         ) : (
-          <div className="flex items-center gap-2 flex-1 min-w-0">
-            <h3 className="text-sm font-bold text-white truncate">
+          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+            <h3
+              className="text-sm font-bold truncate"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {column.title}
             </h3>
-            <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+            <span
+              className="px-2 py-0.5 text-xs font-bold rounded-full flex-shrink-0"
+              style={{
+                background: 'var(--bg-overlay)',
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-muted)',
+              }}
+            >
               {column.tasks.length}
             </span>
           </div>
         )}
 
         {canEdit && !isEditingTitle && (
-          <div className="flex items-center gap-1 opacity-80 hover:opacity-100">
+          <div className="flex items-center gap-0.5 ml-2 flex-shrink-0">
             <button
               onClick={() => setIsEditingTitle(true)}
-              className="p-1 text-slate-400 hover:text-indigo-400 rounded hover:bg-slate-800 transition"
+              className="btn-icon rounded-md"
               title="Rename column"
+              onMouseOver={(e) => (e.currentTarget.style.color = 'var(--brand-400)')}
+              onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               <Edit2 className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={handleDeleteColumn}
-              className="p-1 text-slate-400 hover:text-rose-400 rounded hover:bg-slate-800 transition"
+              className="btn-icon rounded-md"
               title="Delete column"
+              onMouseOver={(e) => (e.currentTarget.style.color = 'var(--danger-400)')}
+              onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -166,7 +180,7 @@ export function KanbanColumn({
       </div>
 
       {/* Task List */}
-      <div className="flex-1 p-3 overflow-y-auto space-y-3 min-h-[150px]">
+      <div className="flex-1 p-3 overflow-y-auto space-y-2.5" style={{ minHeight: '100px' }}>
         {column.tasks.map((task) => (
           <TaskCard
             key={task.id}
@@ -178,60 +192,76 @@ export function KanbanColumn({
         ))}
 
         {column.tasks.length === 0 && !isAddingTask && (
-          <div className="h-24 border border-dashed border-slate-800 rounded-lg flex items-center justify-center text-xs text-slate-500">
-            Drop tasks here
+          <div
+            className="flex flex-col items-center justify-center text-center py-6 rounded-xl"
+            style={{
+              border: '1.5px dashed var(--border-subtle)',
+              color: 'var(--text-muted)',
+            }}
+          >
+            <p className="text-xs">Drop tasks here</p>
           </div>
         )}
       </div>
 
-      {/* Add Task Form / Button */}
+      {/* Add Task Section */}
       {canEdit && (
-        <div className="p-3 border-t border-slate-800/80">
+        <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid var(--border-subtle)' }}>
           {isAddingTask ? (
-            <form onSubmit={handleCreateTask} className="space-y-2">
+            <form onSubmit={handleCreateTask} className="space-y-2 animate-fade-in">
               <input
                 type="text"
                 required
                 autoFocus
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Escape') setIsAddingTask(false); }}
                 placeholder="Task title..."
-                className="w-full px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="input text-sm py-2"
               />
               <textarea
                 value={newTaskDesc}
                 onChange={(e) => setNewTaskDesc(e.target.value)}
-                placeholder="Description (optional)..."
+                placeholder="Description (optional)"
                 rows={2}
-                className="w-full px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"
+                className="input text-xs py-2 resize-none"
               />
-              <div className="flex items-center justify-end gap-2 pt-1">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setIsAddingTask(false)}
-                  className="px-3 py-1 text-xs text-slate-400 hover:text-white rounded transition"
+                  onClick={() => { setIsAddingTask(false); setNewTaskTitle(''); setNewTaskDesc(''); }}
+                  className="btn btn-ghost text-xs py-1.5 flex-1"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmittingTask || !newTaskTitle.trim()}
-                  className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded transition flex items-center gap-1 disabled:opacity-50"
+                  className="btn btn-primary text-xs py-1.5 flex-1"
                 >
-                  {isSubmittingTask && (
-                    <Loader2 className="w-3 h-3 animate-spin" />
-                  )}
-                  <span>Add Task</span>
+                  {isSubmittingTask && <Loader2 className="w-3 h-3 animate-spin" />}
+                  {isSubmittingTask ? 'Adding...' : 'Add Task'}
                 </button>
               </div>
             </form>
           ) : (
             <button
               onClick={() => setIsAddingTask(true)}
-              className="w-full py-2 px-3 flex items-center justify-center gap-1.5 text-xs font-medium text-slate-400 hover:text-indigo-300 hover:bg-slate-800/80 rounded-lg transition border border-transparent hover:border-slate-700"
+              className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-semibold transition-all"
+              style={{ color: 'var(--text-muted)', border: '1.5px dashed var(--border-subtle)' }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.color = 'var(--brand-400)';
+                e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)';
+                e.currentTarget.style.background = 'rgba(99,102,241,0.06)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.color = 'var(--text-muted)';
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.background = 'transparent';
+              }}
             >
-              <Plus className="w-4 h-4" />
-              <span>Add Task</span>
+              <Plus className="w-3.5 h-3.5" />
+              Add task
             </button>
           )}
         </div>
