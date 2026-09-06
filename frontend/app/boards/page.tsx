@@ -17,6 +17,7 @@ import {
   Star,
   Sparkles,
   X,
+  UserCheck,
 } from 'lucide-react';
 
 interface BoardSummary {
@@ -106,27 +107,27 @@ export default function BoardsPage() {
 
   const ownedBoards = boards.filter((b) => b.myRole === 'OWNER');
   const sharedBoards = boards.filter((b) => b.myRole !== 'OWNER');
+  const userName = user?.name ? user.name.split(' ')[0] : 'there';
 
   return (
-    <div className="flex-1 max-w-screen-xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-10">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 animate-fade-in">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-8 border-b border-slate-200/80 mb-8 animate-fade-in">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Good to see you,{' '}
-            <span className="text-gradient">{user?.name?.split(' ')[0] ?? 'there'}</span> 👋
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+            Good to see you, <span className="text-gradient">{userName}</span> 👋
           </h1>
-          <p className="text-sm mt-1 font-medium" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mt-1.5 font-medium text-slate-500">
             {boards.length === 0
               ? 'Create your first board to get started.'
-              : `You have ${boards.length} board${boards.length !== 1 ? 's' : ''} in your workspace.`}
+              : `You have ${boards.length} active board${boards.length !== 1 ? 's' : ''} in your workspace.`}
           </p>
         </div>
 
         <button
           id="create-board-btn"
           onClick={() => setIsModalOpen(true)}
-          className="btn btn-primary flex-shrink-0 shadow-md"
+          className="btn btn-primary flex-shrink-0 shadow-md py-2.5 px-5"
         >
           <Plus className="w-4.5 h-4.5" />
           New Board
@@ -164,8 +165,8 @@ export default function BoardsPage() {
           >
             <Sparkles className="w-8 h-8" style={{ color: 'var(--brand-600)' }} />
           </div>
-          <h2 className="text-xl font-bold mb-2">No boards created yet</h2>
-          <p className="text-sm mb-8 max-w-md font-medium" style={{ color: 'var(--text-secondary)' }}>
+          <h2 className="text-xl font-bold mb-2 text-slate-900">No boards created yet</h2>
+          <p className="text-sm mb-8 max-w-md font-medium text-slate-500">
             Create your first Kanban board to start organizing tasks, managing projects, and collaborating with your team.
           </p>
           <button
@@ -178,14 +179,19 @@ export default function BoardsPage() {
         </div>
       ) : (
         <div className="space-y-12">
-          {/* Owned boards */}
+          {/* Owned boards section */}
           {ownedBoards.length > 0 && (
             <section className="animate-fade-in">
-              <h2 className="text-xs font-extrabold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                <Star className="w-4 h-4" style={{ color: '#d97706' }} />
-                My Boards ({ownedBoards.length})
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+              <div className="flex items-center gap-2.5 mb-6">
+                <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-600">
+                  <Star className="w-4 h-4" />
+                </div>
+                <h2 className="text-sm font-extrabold uppercase tracking-wider text-slate-700">
+                  My Boards <span className="text-slate-400 font-semibold ml-1">({ownedBoards.length})</span>
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {ownedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -193,14 +199,19 @@ export default function BoardsPage() {
             </section>
           )}
 
-          {/* Shared boards */}
+          {/* Shared boards section */}
           {sharedBoards.length > 0 && (
-            <section className="animate-fade-in">
-              <h2 className="text-xs font-extrabold uppercase tracking-widest mb-5 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                <Users className="w-4 h-4" style={{ color: 'var(--accent-500)' }} />
-                Shared with me ({sharedBoards.length})
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+            <section className="animate-fade-in pt-4">
+              <div className="flex items-center gap-2.5 mb-6">
+                <div className="p-1.5 rounded-lg bg-indigo-50 border border-indigo-200/60 text-indigo-600">
+                  <Users className="w-4 h-4" />
+                </div>
+                <h2 className="text-sm font-extrabold uppercase tracking-wider text-slate-700">
+                  Shared with me <span className="text-slate-400 font-semibold ml-1">({sharedBoards.length})</span>
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
                 {sharedBoards.map((board) => (
                   <BoardCard key={board.id} board={board} />
                 ))}
@@ -214,13 +225,13 @@ export default function BoardsPage() {
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div
-            className="modal-card p-6 sm:p-8"
+            className="modal-card p-6 sm:p-8 max-w-lg w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
               <div>
-                <h2 className="text-xl font-bold">Create New Board</h2>
-                <p className="text-xs mt-1 font-medium" style={{ color: 'var(--text-secondary)' }}>
+                <h2 className="text-xl font-bold text-slate-900">Create New Board</h2>
+                <p className="text-xs mt-1 font-medium text-slate-500">
                   Name your board to start organizing tasks.
                 </p>
               </div>
@@ -265,7 +276,7 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="btn btn-primary flex-1"
+                  className="btn btn-primary flex-1 shadow-md"
                 >
                   {isCreating && <Loader2 className="w-4 h-4 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
@@ -294,61 +305,66 @@ function BoardCard({ board }: { board: BoardSummary }) {
       style={{
         background: '#ffffff',
         border: '1px solid var(--border-default)',
-        boxShadow: 'var(--shadow-sm)',
-        padding: '22px 22px 18px',
-        minHeight: '165px',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        padding: '24px',
+        minHeight: '175px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.45)';
-        e.currentTarget.style.boxShadow = '0 10px 30px -5px rgba(99, 102, 241, 0.12)';
+        e.currentTarget.style.boxShadow = '0 12px 32px -4px rgba(99, 102, 241, 0.14)';
         e.currentTarget.style.transform = 'translateY(-3px)';
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
         e.currentTarget.style.transform = 'translateY(0)';
       }}
     >
-      {/* Top accent border strip */}
+      {/* Top accent border strip on hover */}
       <div
-        className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-0 left-0 right-0 h-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
         style={{ background: 'linear-gradient(90deg, var(--brand-500), var(--accent-500))' }}
       />
 
+      {/* Card Header & Body */}
       <div>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
+        <div className="flex items-start justify-between gap-3 mb-2">
           <h3
-            className="text-base font-bold truncate transition-colors group-hover:text-indigo-600"
+            className="text-lg font-extrabold tracking-tight truncate transition-colors group-hover:text-indigo-600"
             style={{ color: 'var(--text-primary)' }}
           >
             {board.name}
           </h3>
-          <span className={`badge ${role.class} flex-shrink-0`}>
+          <span className={`badge ${role.class} flex-shrink-0 px-2.5 py-1 text-[11px]`}>
             {role.icon} {role.label}
           </span>
         </div>
 
-        <p className="text-xs font-medium truncate" style={{ color: 'var(--text-muted)' }}>
-          Owner: <span style={{ color: 'var(--text-secondary)' }}>{board.owner?.name}</span>
-        </p>
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 mt-1 mb-4">
+          <UserCheck className="w-3.5 h-3.5 text-slate-400" />
+          <span>Owner:</span>
+          <span className="text-slate-800 font-bold">{board.owner?.name ?? 'Unknown'}</span>
+        </div>
       </div>
 
-      <div className="mt-5 pt-3.5 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-        <div className="flex items-center gap-3">
+      {/* Card Footer */}
+      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-500">
+        <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
-            <Layout className="w-3.5 h-3.5 text-indigo-500" />
-            {board._count?.columns ?? 0} columns
+            <Layout className="w-4 h-4 text-indigo-500" />
+            {board._count?.columns ?? 0} {board._count?.columns === 1 ? 'column' : 'columns'}
           </span>
           <span className="flex items-center gap-1.5">
-            <Users className="w-3.5 h-3.5 text-emerald-500" />
+            <Users className="w-4 h-4 text-emerald-500" />
             {board.members?.length ?? 1} {board.members?.length === 1 ? 'member' : 'members'}
           </span>
         </div>
-        <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity font-semibold" style={{ color: 'var(--brand-600)' }}>
-          View <ChevronRight className="w-3.5 h-3.5" />
+
+        <span className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-indigo-600">
+          Open <ChevronRight className="w-4 h-4" />
         </span>
       </div>
     </Link>
