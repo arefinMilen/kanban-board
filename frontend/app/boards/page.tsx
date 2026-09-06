@@ -344,24 +344,52 @@ export default function BoardsPage() {
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm animate-fade-in"
           onClick={() => setIsModalOpen(false)}
+          style={{ position: 'fixed', inset: 0, zIndex: 50, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <div
-            className="w-full max-w-lg bg-white rounded-3xl p-7 sm:p-9 shadow-2xl border border-slate-100 animate-fade-in-scale flex flex-col gap-7"
+            className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-100 animate-fade-in-scale"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#ffffff',
+              borderRadius: '24px',
+              padding: '36px 36px',
+              maxWidth: '520px',
+              width: '100%',
+              boxShadow: '0 25px 50px -12px rgba(15, 23, 42, 0.25)',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
           >
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 pb-5 border-b border-slate-200">
-              <div className="flex flex-col gap-1.5 flex-1">
-                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                gap: '16px',
+                paddingBottom: '20px',
+                marginBottom: '28px',
+                borderBottom: '1px solid #e2e8f0',
+              }}
+            >
+              <div style={{ flex: 1 }}>
+                <h2
+                  className="text-2xl font-extrabold text-slate-900 tracking-tight"
+                  style={{ marginBottom: '8px', lineHeight: '1.25', fontSize: '24px', fontWeight: 800, color: '#0f172a' }}
+                >
                   Create New Board
                 </h2>
-                <p className="text-sm font-medium text-slate-500 leading-normal">
+                <p
+                  className="text-sm font-medium text-slate-500"
+                  style={{ margin: 0, lineHeight: '1.5', fontSize: '14px', color: '#64748b' }}
+                >
                   Name your board to start organizing tasks and workflows.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0 -mr-1 -mt-1"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all cursor-pointer flex-shrink-0"
+                style={{ marginTop: '-4px', marginRight: '-4px' }}
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -369,11 +397,19 @@ export default function BoardsPage() {
             </div>
 
             {/* Modal Body / Form */}
-            <form onSubmit={handleCreateBoard} className="flex flex-col gap-7">
-              <div className="flex flex-col gap-3">
+            <form onSubmit={handleCreateBoard} style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ marginBottom: '32px', display: 'flex', flexDirection: 'column' }}>
                 <label
                   htmlFor="new-board-name"
-                  className="block text-xs font-extrabold uppercase tracking-wider text-slate-600"
+                  style={{
+                    display: 'block',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: '#475569',
+                    marginBottom: '10px',
+                  }}
                 >
                   Board Name
                 </label>
@@ -385,17 +421,49 @@ export default function BoardsPage() {
                   value={newBoardName}
                   onChange={(e) => setNewBoardName(e.target.value)}
                   placeholder="e.g. Engineering Sprint Q3"
-                  className="w-full px-5 py-3.5 text-base rounded-2xl border border-slate-300 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition-all outline-none bg-white text-slate-900 shadow-xs"
+                  style={{
+                    width: '100%',
+                    height: '48px',
+                    padding: '0 18px',
+                    fontSize: '15px',
+                    borderRadius: '16px',
+                    border: '1.5px solid #cbd5e1',
+                    background: '#ffffff',
+                    outline: 'none',
+                    boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
+                    color: '#0f172a',
+                  }}
                   maxLength={60}
                 />
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-4 pt-5 border-t border-slate-100">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  paddingTop: '20px',
+                  borderTop: '1px solid #f1f5f9',
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => { setIsModalOpen(false); setNewBoardName(''); }}
-                  className="flex-1 py-3.5 px-6 text-sm font-bold rounded-2xl border border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 transition-all cursor-pointer"
+                  className="flex-1 transition-all cursor-pointer"
+                  style={{
+                    flex: 1,
+                    height: '48px',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    borderRadius: '16px',
+                    border: '1px solid #cbd5e1',
+                    background: '#f8fafc',
+                    color: '#334155',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
                 >
                   Cancel
                 </button>
@@ -403,7 +471,21 @@ export default function BoardsPage() {
                   id="confirm-create-board-btn"
                   type="submit"
                   disabled={isCreating || !newBoardName.trim()}
-                  className="flex-1 py-3.5 px-6 text-sm font-extrabold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="flex-1 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  style={{
+                    flex: 1,
+                    height: '48px',
+                    fontSize: '14px',
+                    fontWeight: 800,
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    color: '#ffffff',
+                    boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
                 >
                   {isCreating && <Loader2 className="w-4.5 h-4.5 animate-spin" />}
                   {isCreating ? 'Creating...' : 'Create Board'}
