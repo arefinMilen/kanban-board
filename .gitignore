@@ -36,3 +36,6 @@ Thumbs.db
 *.db
 *.sqlite
 prisma/migrations/dev/
+
+# Project Spec (private)
+kanban-project-spec.md
