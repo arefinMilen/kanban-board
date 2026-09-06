@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { LayoutDashboard, Lock, Mail, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Lock, Mail, Loader2, Eye, EyeOff, Sparkles } from 'lucide-react';
 
 export default function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,6 +25,12 @@ export default function LoginPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleQuickFill = (fillEmail: string, fillPass: string) => {
+    setEmail(fillEmail);
+    setPassword(fillPass);
+    setError(null);
   };
 
   return (
@@ -72,13 +79,20 @@ export default function LoginPage() {
                 <Lock className="w-5 h-5" />
               </div>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+                className="w-full pl-10 pr-10 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
           </div>
 
@@ -97,6 +111,38 @@ export default function LoginPage() {
             )}
           </button>
         </form>
+
+        {/* Quick Demo Test Accounts */}
+        <div className="mt-6 pt-5 border-t border-slate-800">
+          <div className="flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Quick Test Accounts (Click to Fill)</span>
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            <button
+              type="button"
+              onClick={() => handleQuickFill('owner@example.com', 'Password123!')}
+              className="px-3 py-1.5 text-xs font-medium bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 rounded-full hover:bg-indigo-500/25 hover:border-indigo-400 transition"
+            >
+              👑 Demo Owner
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill('editor@example.com', 'Password123!')}
+              className="px-3 py-1.5 text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-full hover:bg-emerald-500/25 hover:border-emerald-400 transition"
+            >
+              ✏️ Demo Editor
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickFill('viewer@example.com', 'Password123!')}
+              className="px-3 py-1.5 text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/30 rounded-full hover:bg-amber-500/25 hover:border-amber-400 transition"
+            >
+              👁️ Demo Viewer
+            </button>
+          </div>
+        </div>
 
         <div className="mt-6 text-center text-sm text-slate-400">
           Don&apos;t have an account?{' '}
