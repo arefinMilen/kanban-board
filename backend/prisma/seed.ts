@@ -15,7 +15,7 @@ async function main() {
     create: {
       email: 'owner@example.com',
       passwordHash,
-      name: 'Alice Owner',
+      name: 'Rafiq Hossain',
     },
   });
 
@@ -25,7 +25,7 @@ async function main() {
     create: {
       email: 'editor@example.com',
       passwordHash,
-      name: 'Bob Editor',
+      name: 'Nusrat Jahan',
     },
   });
 
@@ -35,7 +35,7 @@ async function main() {
     create: {
       email: 'viewer@example.com',
       passwordHash,
-      name: 'Charlie Viewer',
+      name: 'Tanvir Ahmed',
     },
   });
 

@@ -44,25 +44,25 @@ export default function LoginPage() {
 
   const demoAccounts = [
     {
-      label: 'Owner',
+      label: 'Rafiq Hossain',
+      sublabel: 'Owner',
       emoji: '👑',
       email: 'owner@example.com',
       pass: 'Password123!',
-      color: 'warning',
     },
     {
-      label: 'Editor',
+      label: 'Nusrat Jahan',
+      sublabel: 'Editor',
       emoji: '✏️',
       email: 'editor@example.com',
       pass: 'Password123!',
-      color: 'accent',
     },
     {
-      label: 'Viewer',
+      label: 'Tanvir Ahmed',
+      sublabel: 'Viewer',
       emoji: '👁️',
       email: 'viewer@example.com',
       pass: 'Password123!',
-      color: 'muted',
     },
   ];
 
@@ -154,7 +154,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  placeholder="rafiq@example.com"
                   className="input input-icon-left"
                   autoComplete="email"
                 />
@@ -231,15 +231,17 @@ export default function LoginPage() {
             <div className="grid grid-cols-3 gap-2">
               {demoAccounts.map((acc) => (
                 <button
-                  key={acc.label}
+                  key={acc.email}
                   type="button"
-                  id={`demo-${acc.label.toLowerCase()}`}
+                  id={`demo-${acc.sublabel.toLowerCase()}`}
                   onClick={() => handleQuickFill(acc.email, acc.pass)}
-                  className="flex flex-col items-center gap-1 py-2.5 px-2 rounded-xl text-xs font-semibold transition-all"
+                  title={acc.email}
+                  className="flex flex-col items-center gap-1 py-3 px-2 rounded-xl transition-all"
                   style={{
                     background: 'var(--bg-overlay)',
                     border: '1px solid var(--border-default)',
                     color: 'var(--text-secondary)',
+                    fontSize: '0.72rem',
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.borderColor = 'var(--brand-500)';
@@ -252,8 +254,13 @@ export default function LoginPage() {
                     e.currentTarget.style.color = 'var(--text-secondary)';
                   }}
                 >
-                  <span className="text-lg">{acc.emoji}</span>
-                  <span>{acc.label}</span>
+                  <span style={{ fontSize: '1.1rem' }}>{acc.emoji}</span>
+                  <span style={{ fontWeight: 600, fontSize: '0.73rem', textAlign: 'center', lineHeight: 1.3 }}>
+                    {acc.label}
+                  </span>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                    {acc.sublabel}
+                  </span>
                 </button>
               ))}
             </div>
