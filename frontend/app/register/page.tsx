@@ -68,12 +68,13 @@ export default function RegisterPage() {
 
         {/* Card */}
         <div
-          className="rounded-2xl p-7 shadow-2xl"
+        className="rounded-2xl shadow-2xl"
           style={{
-            background: 'rgba(22,27,34,0.75)',
+            background: 'rgba(22,27,34,0.80)',
             border: '1px solid var(--border-default)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
+            padding: '36px 32px',
           }}
         >
           {error && (

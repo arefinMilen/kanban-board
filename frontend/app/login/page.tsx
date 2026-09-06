@@ -108,12 +108,13 @@ export default function LoginPage() {
 
         {/* Card */}
         <div
-          className="rounded-2xl p-7 shadow-2xl"
+        className="rounded-2xl shadow-2xl"
           style={{
-            background: 'rgba(22,27,34,0.75)',
+            background: 'rgba(22,27,34,0.80)',
             border: '1px solid var(--border-default)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
+            padding: '36px 32px',
           }}
         >
           {error && (
@@ -218,7 +219,7 @@ export default function LoginPage() {
           </form>
 
           {/* Demo Accounts */}
-          <div className="mt-6 pt-5" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+          <div className="mt-7 pt-6" style={{ borderTop: '1px solid var(--border-subtle)' }}>
             <div
               className="flex items-center justify-center gap-1.5 text-xs font-semibold uppercase tracking-wider mb-3"
               style={{ color: 'var(--text-muted)' }}
