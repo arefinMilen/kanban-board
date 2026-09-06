@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -19,7 +20,7 @@ import { BoardAccessGuard } from '../auth/guards/board-access.guard';
 
 @Controller('boards')
 export class BoardsController {
-  constructor(private readonly boardsService: BoardsService) {}
+  constructor(@Inject(BoardsService) private readonly boardsService: BoardsService) {}
 
   @Post()
   async create(

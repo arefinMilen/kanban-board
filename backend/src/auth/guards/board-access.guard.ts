@@ -2,6 +2,7 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -13,8 +14,8 @@ import { ROLES_KEY } from '../decorators/roles.decorator';
 @Injectable()
 export class BoardAccessGuard implements CanActivate {
   constructor(
-    private reflector: Reflector,
-    private prisma: PrismaService,
+    @Inject(Reflector) private reflector: Reflector = new Reflector(),
+    @Inject(PrismaService) private prisma: PrismaService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
